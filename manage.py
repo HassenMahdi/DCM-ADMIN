@@ -1,3 +1,5 @@
+print('ADMIN-DCM: manage.py started running')
+
 import os
 import unittest
 
