@@ -1,5 +1,3 @@
-print('ADMIN-DCM: manage.py started running')
-
 import os
 import unittest
 
@@ -35,6 +33,7 @@ def test():
     if result.wasSuccessful():
         return 0
     return 1
+
 
 if __name__ == '__main__':
     manager.run()

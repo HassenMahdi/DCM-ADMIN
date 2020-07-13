@@ -33,6 +33,7 @@ class DomainDto:
         'created_on': fields.DateTime(description='user Identifier')
     })
 
+
 class FieldsDto:
     api = Namespace('domain', description='domain specific fields')
     field = api.model('field', {
@@ -42,5 +43,6 @@ class FieldsDto:
         'description': NullableString(description='user username'),
         'category': fields.String(description='user username'),
         'type': fields.String(description='user username'),
-        'created_on': fields.DateTime(description='user Identifier')
+        'created_on': fields.DateTime(description='user Identifier'),
+        'rules': fields.List(fields.Raw, description='list of rules')
     })

@@ -17,4 +17,5 @@ class TargetField(Document):
     modified_on = None
     type = None
     category = None
+    rules = None
 
