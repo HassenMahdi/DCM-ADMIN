@@ -5,7 +5,7 @@ class CheckParam:
 
     def __init__(self, name, type=None, role=None, label= None, options= None):
 
-        self.type = 'input' or type
+        self.type = type or 'input'
         self.role = role
         self.name = name
         self.label = label or self.name

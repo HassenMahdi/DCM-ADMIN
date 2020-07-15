@@ -5,6 +5,7 @@ class NullableString(fields.String):
     __schema_type__ = ['string', 'null']
     __schema_example__ = 'nullable string'
 
+
 class UserDto:
     api = Namespace('user', description='user related operations')
     user = api.model('user', {
@@ -58,7 +59,7 @@ class ChecksDto:
         'name': fields.String,
         'type': fields.String,
         'label': fields.String,
-        'options': fields.String
+        'options': fields.List(fields.Raw)
     })
 
     check = api.model('check', {
