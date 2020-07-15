@@ -14,6 +14,7 @@ def get_domain_checks(domain_id):
 
     return checks
 
+
 def get_check_from_shared(folder_name='default'):
 
     default_checks: ShareDirectoryClient = service.get_directory_client(folder_name)
