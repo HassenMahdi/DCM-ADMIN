@@ -22,20 +22,24 @@ def get_check_from_shared(folder_name='default'):
 
     try:
         for f in default_checks.list_directories_and_files():
+            # DOWNLOAD FILE
             file: ShareFileClient = default_checks.get_file_client(f['name'])
             data: StorageStreamDownloader = file.download_file()
 
+            # CREATE TEMP FILE
             file_stream = tempfile.NamedTemporaryFile(suffix='.py', delete=False)
             file_stream.write(data.readall())
             file_stream.flush()
             file_stream.close()
 
+            # IMPORT MODULE
             spec = importlib.util.spec_from_file_location("datachecks", file_stream.name)
             datachecks_module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(datachecks_module)
             datachecks_module.Check
             check = datachecks_module.Check
 
+            # ADD CHECK
             checks.append(check)
 
     except Exception as e:

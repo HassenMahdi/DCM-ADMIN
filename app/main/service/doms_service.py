@@ -2,9 +2,6 @@ import uuid
 import datetime
 
 from app.db.Models.domain import Domain
-from app.main import db
-from app.main.model.user import User
-
 
 def save_domain(data):
     dom = Domain(**data).load()
