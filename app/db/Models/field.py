@@ -18,4 +18,6 @@ class TargetField(Document):
     type = None
     category = None
     rules = None
+    editable = None
+    mandatory = None
 

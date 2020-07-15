@@ -5,6 +5,7 @@ from app.db.Models.domain import Domain
 from app.db.Models.field import TargetField
 from app.main import db
 from app.main.model.user import User
+from app.main.util.strings import camelCase
 
 
 def save_field(data, domain_id):
@@ -14,16 +15,19 @@ def save_field(data, domain_id):
         new_dom = TargetField(
            **{
                 'id': identifier,
-                'created_on': datetime.datetime.utcnow()
+                'created_on': datetime.datetime.utcnow(),
+                'name': camelCase(data['label'])
             })
         target_field = new_dom
 
     target_field.label = data['label']
-    target_field.name = data['name']
+    # target_field.name = data['name']
     target_field.description = data.get('description', None)
-    target_field.category = data['category']
+    # target_field.category = data.get('category', None)
     target_field.type = data['type']
-    target_field.rules = data['rules']
+    target_field.mandatory = data.get('mandatory', False)
+    target_field.editable = data.get('editable', False)
+    target_field.rules = data.get('rules', [])
     target_field.modified_on = datetime.datetime.utcnow()
 
     target_field.save(domain_id=domain_id)

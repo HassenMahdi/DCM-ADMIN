@@ -38,11 +38,29 @@ class FieldsDto:
     api = Namespace('domain', description='domain specific fields')
     field = api.model('field', {
         'id': NullableString(description='user password'),
-        'name': fields.String(required=True, description='user email address'),
+        'name': fields.String(description='user email address'),
         'label': fields.String(description='user username'),
         'description': NullableString(description='user username'),
-        'category': fields.String(description='user username'),
+        # 'category': fields.String(description='user username'),
         'type': fields.String(description='user username'),
+        'mandatory': fields.Boolean(description='user username'),
+        'editable': fields.Boolean(description='user username'),
+        'created_on': fields.DateTime(description='user Identifier'),
+        'rules': fields.List(fields.Raw, description='list of rules')
+    })
+
+
+class ChecksDto:
+    api = Namespace('domain', description='domain specific checks')
+    check = api.model('field', {
+        'id': NullableString(description='user password'),
+        'name': fields.String(description='user email address'),
+        'label': fields.String(description='user username'),
+        'description': NullableString(description='user username'),
+        # 'category': fields.String(description='user username'),
+        'type': fields.String(description='user username'),
+        'mandatory': fields.Boolean(description='user username'),
+        'editable': fields.Boolean(description='user username'),
         'created_on': fields.DateTime(description='user Identifier'),
         'rules': fields.List(fields.Raw, description='list of rules')
     })
