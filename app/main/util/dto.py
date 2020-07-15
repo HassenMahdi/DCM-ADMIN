@@ -50,17 +50,21 @@ class FieldsDto:
     })
 
 
+
 class ChecksDto:
     api = Namespace('domain', description='domain specific checks')
-    check = api.model('field', {
+
+    check_param = api.model('check param', {
+        'name': fields.String,
+        'type': fields.String,
+        'label': fields.String,
+        'options': fields.String
+    })
+
+    check = api.model('check', {
         'id': NullableString(description='user password'),
         'name': fields.String(description='user email address'),
-        'label': fields.String(description='user username'),
         'description': NullableString(description='user username'),
-        # 'category': fields.String(description='user username'),
-        'type': fields.String(description='user username'),
-        'mandatory': fields.Boolean(description='user username'),
-        'editable': fields.Boolean(description='user username'),
-        'created_on': fields.DateTime(description='user Identifier'),
-        'rules': fields.List(fields.Raw, description='list of rules')
+        'category': fields.String(description='user username'),
+        'parameters': fields.List(fields.Nested(check_param))
     })
