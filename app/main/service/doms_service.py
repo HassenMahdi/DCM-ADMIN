@@ -2,28 +2,35 @@ import uuid
 import datetime
 
 from app.db.Models.domain import Domain
+from app.db.Models.super_domain import SuperDomain
 
 
 def save_domain(data):
-    dom = Domain(**data).load()
-    if not dom.id:
-        identifier = uuid.uuid4().hex.upper()
-        super_domain_id = data['super_domain_id']
-        new_dom = Domain(
-            **{**data, **{
-                'id': identifier,
-                'identifier': identifier,
-                'created_on': datetime.datetime.utcnow(),
-                'super_domain_id': super_domain_id
+    super_domain_id = data['super_domain_id']
+    super_dom = SuperDomain(**{'id':super_domain_id}).load()
 
-            }})
-        #     CREATE NEW TABLES HERE
-        dom = new_dom
+    if super_dom.id:
+        dom = Domain(**data).load()
+        if not dom.id:
+            identifier = uuid.uuid4().hex.upper()
+
+            new_dom = Domain(
+                **{**data, **{
+                    'id': identifier,
+                    'identifier': identifier,
+                    'created_on': datetime.datetime.utcnow(),
+                    'super_domain_id': super_domain_id
+
+                }})
+            #     CREATE NEW TABLES HERE
+            dom = new_dom
+        else:
+            dom.name = data['name']
+            dom.description = data['description']
+
+        dom.save()
     else:
-        dom.name = data['name']
-        dom.description = data['description']
-
-    dom.save()
+        raise Exception(f'NO SUPER DOMAIN WITH ID {super_domain_id} FOUND')
 
     return dom
 
