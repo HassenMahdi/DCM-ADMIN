@@ -35,6 +35,18 @@ def save_domain(data):
     return dom
 
 
+def delete_domain(data):
+    super_domain_id = data['super_domain_id']
+    super_dom = SuperDomain(**{'id':super_domain_id}).load()
+
+    if super_dom.id:
+        dom = Domain(**data).delete()
+    else:
+        raise Exception(f'NO SUPER DOMAIN WITH ID {super_domain_id} FOUND')
+
+    return dom
+
+
 def get_all_domains():
     return Domain.get_all()
 

@@ -36,6 +36,12 @@ class Document:
         self.from_dict(self.db(**kwargs).find_one(query))
         return self
 
+    def delete(self, query=None, **kwargs):
+        if not query:
+            query = {'_id': self._id}
+        self.db(**kwargs).remove(query, {'justOne':True})
+        return self
+
     def to_dict(self):
         return self.__dict__
 
@@ -49,3 +55,4 @@ class Document:
     @classmethod
     def get_all(cls, query={}, **kwargs):
         return [cls(**r) for r in cls().db(**kwargs).find(query)]
+
