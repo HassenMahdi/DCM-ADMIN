@@ -32,7 +32,7 @@ class Domains(Resource):
     @api.response(201, 'User successfully deleted.')
     @api.expect(user_auth, validate=True)
     @api.marshal_with(user_auth)
-    def post(self):
+    def delete(self):
         # get the post data
         post_data = request.json
         return delete_domain(data=post_data)
