@@ -29,10 +29,10 @@ def save_super_domain(data):
     return dom
 
 
-def delete_domain(data):
+def delete_super_domain(data):
     super_dom = SuperDomain(**data).load()
     if super_dom.id:
-        dms = get_domains_by_super_id(super_dom.id)
+        dms = Domain.get_all(query={'super_domain_id':super_dom.id})
         dm: Domain
         for dm in dms:
             TargetField.drop(domain_id=dm.id)

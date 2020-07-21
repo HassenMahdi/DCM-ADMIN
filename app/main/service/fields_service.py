@@ -42,7 +42,7 @@ def save_field(data, domain_id):
     return target_field
 
 
-def delete_domain(data, domain_id):
+def delete_field(data, domain_id):
     tf = TargetField(**data).delete(domain_id=domain_id)
     return tf
 
