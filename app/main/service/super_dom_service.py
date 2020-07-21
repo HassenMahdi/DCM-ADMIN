@@ -38,6 +38,8 @@ def delete_super_domain(data):
             TargetField.drop(domain_id=dm.id)
             dm.delete()
 
+        super_dom.delete()
+
     return super_dom
 
 
