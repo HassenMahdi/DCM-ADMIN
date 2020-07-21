@@ -31,6 +31,18 @@ class DomainDto:
         'identifier': NullableString(description='user username'),
         'description': fields.String(description='user username'),
         'id': NullableString(description='user password'),
+        'created_on': fields.DateTime(description='user Identifier'),
+        'super_domain_id': fields.String(required=True, description='Super Domain Id')
+    })
+
+
+class SuperDomainDto:
+    api = Namespace('super-domain', description='super domain related operations')
+    super_domain = api.model('domain', {
+        'name': fields.String(required=True, description='user email address'),
+        'identifier': NullableString(description='user username'),
+        'description': fields.String(description='user username'),
+        'id': NullableString(description='user password'),
         'created_on': fields.DateTime(description='user Identifier')
     })
 
