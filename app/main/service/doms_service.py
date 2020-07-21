@@ -33,4 +33,4 @@ def get_all_domains():
 
 
 def get_domains_by_super_id(super_id):
-    return Domain.get_all()
+    return Domain.get_all(query={'super_domain_id':super_id})

@@ -38,7 +38,7 @@ class DomainDto:
 
 class SuperDomainDto:
     api = Namespace('super-domain', description='super domain related operations')
-    super_domain = api.model('domain', {
+    super_domain = api.model('super-domain', {
         'name': fields.String(required=True, description='user email address'),
         'identifier': NullableString(description='user username'),
         'description': fields.String(description='user username'),
