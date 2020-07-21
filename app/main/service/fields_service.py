@@ -42,5 +42,10 @@ def save_field(data, domain_id):
     return target_field
 
 
+def delete_domain(data, domain_id):
+    tf = TargetField(**data).delete(domain_id=domain_id)
+    return tf
+
+
 def get_all_fields(domain_id):
     return TargetField.get_all(domain_id = domain_id)

@@ -29,7 +29,7 @@ class DomainDto:
     domain = api.model('domain', {
         'name': fields.String(required=True, description='user email address'),
         'identifier': NullableString(description='user username'),
-        'description': fields.String(description='user username'),
+        'description': NullableString(description='user username'),
         'id': NullableString(description='user password'),
         'created_on': fields.DateTime(description='user Identifier'),
         'super_domain_id': fields.String(required=True, description='Super Domain Id')
@@ -41,7 +41,7 @@ class SuperDomainDto:
     super_domain = api.model('super-domain', {
         'name': fields.String(required=True, description='user email address'),
         'identifier': NullableString(description='user username'),
-        'description': fields.String(description='user username'),
+        'description': NullableString(description='user username'),
         'id': NullableString(description='user password'),
         'created_on': fields.DateTime(description='user Identifier')
     })
