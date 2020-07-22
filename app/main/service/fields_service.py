@@ -1,6 +1,8 @@
 import uuid
 import datetime
 
+import xlrd
+
 from app.db.Models.domain import Domain
 from app.db.Models.field import TargetField
 from app.main import db
@@ -49,3 +51,36 @@ def delete_field(data, domain_id):
 
 def get_all_fields(domain_id):
     return TargetField.get_all(domain_id = domain_id)
+
+
+def fields_from_file(file, domain_id):
+
+    col_field = {
+        'MANDATORY': 'mandatory',
+        'DESCRIPTION': 'description',
+        'FIELD': 'label',
+        'EDITABLE': 'editable',
+        'TYPE': 'type'
+    }
+
+    wb = xlrd.open_workbook(file_contents=file.read())
+    sh = wb.sheet_by_index(0)
+
+    first_row = []  # The row where we stock the name of the column
+    for col in range(sh.ncols):
+        first_row.append(sh.cell_value(0, col))
+
+    fields_data = []
+    for row in range(1, sh.nrows):
+        elm = {}
+        for col in range(sh.ncols):
+            data_field_name = col_field[first_row[col]]
+            elm[data_field_name] = sh.cell_value(row, col)
+
+        fields_data.append(elm)
+
+    TargetField.drop(domain_id=domain_id)
+    for data in fields_data:
+        save_field(data, domain_id)
+
+    return
