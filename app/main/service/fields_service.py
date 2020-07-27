@@ -82,3 +82,13 @@ def fields_from_file(file, domain_id):
         save_field(data, domain_id)
 
     return
+
+
+def duplicate_fields(old_id, new_id):
+    fields = get_all_fields(old_id)
+    for f in fields:
+        f.save(domain_id=new_id)
+
+    return fields
+
+

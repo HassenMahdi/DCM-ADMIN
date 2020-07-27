@@ -56,3 +56,11 @@ def get_all_domains():
 
 def get_domains_by_super_id(super_id):
     return Domain.get_all(query={'super_domain_id':super_id})
+
+
+def duplicate_domain(data):
+    data['id'] = None;
+    data['identifier'] = None;
+    data['name'] = data['name'] + '- copy';
+    return save_domain(data)
+
