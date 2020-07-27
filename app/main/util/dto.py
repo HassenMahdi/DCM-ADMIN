@@ -60,7 +60,7 @@ class FieldsDto:
         'type': fields.String(description='user username'),
         'mandatory': fields.Boolean(description='user username'),
         'editable': fields.Boolean(description='user username'),
-        'rules': fields.List(fields.Raw, description='list of rules')
+        'rules': fields.List(fields.Raw, description='list of rules'),
         'created_on': fields.DateTime(description='user Identifier'),
         'modified_on': fields.DateTime(description='user Identifier'),
     })
