@@ -28,6 +28,7 @@ def save_domain(data):
         else:
             dom.name = data['name']
             dom.description = data['description']
+            dom.modified_on = datetime.datetime.utcnow()
 
         dom.save()
     else:

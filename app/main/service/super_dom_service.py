@@ -23,6 +23,7 @@ def save_super_domain(data):
     else:
         dom.name = data['name']
         dom.description = data['description']
+        dom.modified_on = datetime.datetime.utcnow()
 
     dom.save()
 
