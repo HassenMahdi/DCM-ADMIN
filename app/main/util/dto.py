@@ -32,7 +32,8 @@ class DomainDto:
         'description': NullableString(description='user username'),
         'id': NullableString(description='user password'),
         'created_on': fields.DateTime(description='user Identifier'),
-        'super_domain_id': fields.String(required=True, description='Super Domain Id')
+        'super_domain_id': fields.String(required=True, description='Super Domain Id'),
+        'modified_on': fields.DateTime(description='user Identifier'),
     })
 
 
@@ -43,7 +44,8 @@ class SuperDomainDto:
         'identifier': NullableString(description='user username'),
         'description': NullableString(description='user username'),
         'id': NullableString(description='user password'),
-        'created_on': fields.DateTime(description='user Identifier')
+        'created_on': fields.DateTime(description='user Identifier'),
+        'modified_on': fields.DateTime(description='user Identifier'),
     })
 
 
@@ -58,8 +60,9 @@ class FieldsDto:
         'type': fields.String(description='user username'),
         'mandatory': fields.Boolean(description='user username'),
         'editable': fields.Boolean(description='user username'),
-        'created_on': fields.DateTime(description='user Identifier'),
         'rules': fields.List(fields.Raw, description='list of rules')
+        'created_on': fields.DateTime(description='user Identifier'),
+        'modified_on': fields.DateTime(description='user Identifier'),
     })
 
 

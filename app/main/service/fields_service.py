@@ -5,8 +5,6 @@ import xlrd
 
 from app.db.Models.domain import Domain
 from app.db.Models.field import TargetField
-from app.main import db
-from app.main.model.user import User
 from app.main.util.strings import camelCase
 
 
