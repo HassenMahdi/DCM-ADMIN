@@ -1,9 +1,9 @@
-from flask import request
+from flask import request, jsonify
 from flask_restplus import Resource
 
 from app.main.service.auth_helper import Auth
 from ..service.doms_service import get_all_domains, save_domain, get_domains_by_super_id, delete_domain, \
-    duplicate_domain
+    duplicate_domain, get_domains_grouped_by_super_domains
 from ..service.fields_service import duplicate_fields
 from ..util.dto import DomainDto
 
@@ -62,3 +62,14 @@ class SubDomains(Resource):
     @api.marshal_list_with(dto)
     def get(self, super_id):
         return get_domains_by_super_id(super_id)
+
+@api.route('/all/super')
+class SubDomainsGrouped(Resource):
+    """
+        Domain Resource
+    """
+
+    @api.doc('Get All Domains Grouped By Super Domains')
+    def get(self):
+        res = {"resultat": get_domains_grouped_by_super_domains()}
+        return jsonify(res)

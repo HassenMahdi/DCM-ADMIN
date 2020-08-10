@@ -64,3 +64,20 @@ def duplicate_domain(data):
     data['name'] = data['name'] + '- copy';
     return save_domain(data)
 
+def get_domains_grouped_by_super_domains():
+    super_domains = SuperDomain.get_all()
+    domains = Domain.get_all()
+    res = {}
+    for super_dom in super_domains:
+        res[super_dom.name] = []
+        for dom in domains:
+            if super_dom.id == dom.super_domain_id:
+                dom_copy = dom.to_dict().copy()
+                del dom_copy["created_on"]
+                try:
+                    del dom_copy["modified_on"]
+                except:
+                    print("key not found modified_on")
+                res[super_dom.name].append(dom_copy)
+    return res
+
