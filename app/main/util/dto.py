@@ -46,6 +46,7 @@ class SuperDomainDto:
         'id': NullableString(description='user password'),
         'created_on': fields.DateTime(description='user Identifier'),
         'modified_on': fields.DateTime(description='user Identifier'),
+        'domains': fields.List(fields.Nested(DomainDto.domain))
     })
 
 

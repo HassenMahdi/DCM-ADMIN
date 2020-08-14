@@ -1,7 +1,8 @@
 from flask import request
 from flask_restplus import Resource
 
-from ..service.super_dom_service import get_all_super_domains, save_super_domain, delete_super_domain
+from ..service.super_dom_service import get_all_super_domains, save_super_domain, delete_super_domain, \
+    get_domains_hierarchy
 from ..util.dto import DomainDto, SuperDomainDto
 
 api = SuperDomainDto.api
@@ -35,3 +36,15 @@ class SuperDomains(Resource):
         # get the post data
         post_data = request.json
         return delete_super_domain(data=post_data)
+
+
+@api.route('/hierarchy')
+class DomainsHierarchy(Resource):
+    """
+        Domain Resource
+    """
+    @api.doc('Get Domains Hierarchy')
+    @api.marshal_list_with(dto)
+    def get(self):
+        return get_domains_hierarchy()
+

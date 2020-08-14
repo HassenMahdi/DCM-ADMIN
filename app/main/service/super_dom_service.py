@@ -46,3 +46,23 @@ def delete_super_domain(data):
 
 def get_all_super_domains():
     return SuperDomain.get_all()
+
+
+def get_domains_hierarchy():
+    query_result = SuperDomain().db().aggregate([{
+       "$lookup": {
+           'from': Domain().db().name,
+           'localField': 'identifier',
+           'foreignField': 'super_domain_id',
+           'as': 'domains'
+           }
+       }])
+
+    hierarchy = []
+    for sd in query_result:
+        hierarchy.append(
+            SuperDomain(
+                **{**sd, 'domains':[Domain(**d) for d in sd['domains']]})
+        )
+
+    return hierarchy
