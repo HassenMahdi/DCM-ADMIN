@@ -6,6 +6,9 @@ from app.db.Models.field import TargetField
 from app.db.Models.super_domain import SuperDomain
 
 
+def get_domain(dom_id):
+    return Domain(id=dom_id).load()
+
 def save_domain(data):
     super_domain_id = data['super_domain_id']
     super_dom = SuperDomain(**{'id':super_domain_id}).load()
