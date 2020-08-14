@@ -64,7 +64,7 @@ class SubDomains(Resource):
         return get_domains_by_super_id(super_id)
 
 
-@api.route('/<id>')
+@api.route('/<dom_id>')
 class DomainDetails(Resource):
     """
         Domain Resource
