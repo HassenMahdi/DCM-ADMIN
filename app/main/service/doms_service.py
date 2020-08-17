@@ -31,7 +31,7 @@ def save_domain(data):
             dom = new_dom
 
         dom.name = data['name']
-        dom.description = data.get('description', null)
+        dom.description = data.get('description', None)
         dom.modified_on = datetime.datetime.utcnow()
 
         dom.save()
