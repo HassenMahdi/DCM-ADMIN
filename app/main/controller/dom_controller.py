@@ -74,6 +74,12 @@ class DomainDetails(Resource):
     def get(self, dom_id):
         return get_domain(dom_id)
 
+    @api.doc('delete Domains')
+    @api.response(201, 'Domain successfully deleted.')
+    @api.marshal_with(dto)
+    def delete(self, dom_id):
+        return delete_domain(data={id:dom_id})
+
 
 @api.route('/all/super')
 class SubDomainsGrouped(Resource):
