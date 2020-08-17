@@ -30,7 +30,7 @@ def save_domain(data):
             #     CREATE NEW TABLES HERE
             dom = new_dom
 
-        dom.name = data['name']
+        dom.name = data.get('name', None)
         dom.description = data.get('description', None)
         dom.modified_on = datetime.datetime.utcnow()
 
