@@ -23,7 +23,7 @@ class Domains(Resource):
 
     @api.doc('Create/Update Domains')
     @api.response(201, 'Domain successfully created/updated.')
-    @api.expect(dto, validate=True)
+    # @api.expect(dto, validate=True)
     @api.marshal_with(dto)
     def post(self):
         # get the post data
