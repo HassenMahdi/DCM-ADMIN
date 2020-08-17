@@ -45,7 +45,7 @@ class Domains(Resource):
 
     @api.doc('delete Domains')
     @api.response(201, 'Domain successfully deleted.')
-    @api.expect(dto, validate=True)
+    # @api.expect(dto, validate=True)
     @api.marshal_with(dto)
     def delete(self):
         # get the post data
