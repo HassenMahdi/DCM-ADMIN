@@ -20,10 +20,10 @@ def save_super_domain(data):
             }})
         #     CREATE NEW TABLES HERE
         dom = new_dom
-    else:
-        dom.name = data['name']
-        dom.description = data['description']
-        dom.modified_on = datetime.datetime.utcnow()
+
+    dom.name = data['name']
+    dom.description = data.get('description')
+    dom.modified_on = datetime.datetime.utcnow()
 
     dom.save()
 

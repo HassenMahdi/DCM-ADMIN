@@ -21,7 +21,7 @@ class SuperDomains(Resource):
 
     @api.doc('Create/Update Super Domains')
     @api.response(201, 'Super Domain successfully created/updated.')
-    @api.expect(dto, validate=True)
+    # @api.expect(dto, validate=True)
     @api.marshal_with(dto)
     def post(self):
         # get the post data
@@ -30,7 +30,7 @@ class SuperDomains(Resource):
 
     @api.doc('delete super Domains')
     @api.response(201, 'Super Domain successfully deleted.')
-    @api.expect(dto, validate=True)
+    # @api.expect(dto, validate=True)
     @api.marshal_with(dto)
     def delete(self):
         # get the post data
