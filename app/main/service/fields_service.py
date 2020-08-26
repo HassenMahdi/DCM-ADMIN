@@ -51,6 +51,12 @@ def get_all_fields(domain_id):
     return TargetField.get_all(domain_id = domain_id)
 
 
+def get_simple(domain_id):
+    return list(TargetField().db(domain_id = domain_id).aggregate([
+        {"$project": {'label': 1, 'value': '$_id'}}
+        ]))
+
+
 def fields_from_file(file, domain_id):
 
     col_field = {
