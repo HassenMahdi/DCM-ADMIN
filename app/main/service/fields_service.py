@@ -53,7 +53,7 @@ def get_all_fields(domain_id):
 
 def get_simple(domain_id):
     return list(TargetField().db(domain_id = domain_id).aggregate([
-        {"$project": {'label': 1, 'value': '$_id'}}
+        {"$project": {'label': 1, 'value': '$name'}}
         ]))
 
 

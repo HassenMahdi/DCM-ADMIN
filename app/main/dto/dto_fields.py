@@ -24,8 +24,8 @@ class DTOFields():
         dto.rules = []
         for rule in dao.rules:
             if "property" in rule and rule["property"]:
-                tf = TargetField(id=rule["property"]).load(domain_id=domain_id)
-                rule["property"] = {'value': tf.id, 'label':tf.label}
+                tf = TargetField().load({'name': rule["property"]}, domain_id=domain_id)
+                rule["property"] = {'value': tf.name, 'label':tf.label}
 
             dto.rules.append(rule)
 
