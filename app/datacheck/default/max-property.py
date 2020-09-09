@@ -4,7 +4,7 @@ from app.datacheck import CheckAbstract, CheckParam
 class Check(CheckAbstract):
 
     id = "MAXIMUM_PROPERTY_CHECK"
-    name = "Maximum Property Value Check"
+    name = "Is Lower Than"
     category = None
     description = None
 

@@ -1,6 +1,7 @@
 import uuid
 import datetime
 
+from app.db.Models.collection_data import CollectionData
 from app.db.Models.domain import Domain
 from app.db.Models.field import TargetField
 from app.db.Models.super_domain import SuperDomain
@@ -48,6 +49,7 @@ def delete_domain(data):
     if super_dom.id:
         dom = Domain(**data).delete()
         TargetField.drop(domain_id=dom.id)
+        CollectionData.drop(domain_id=dom.id)
     else:
         raise Exception(f'NO SUPER DOMAIN WITH ID {super_domain_id} FOUND')
 
