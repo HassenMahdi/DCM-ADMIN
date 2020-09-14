@@ -70,6 +70,7 @@ def duplicate_domain(data):
     data['name'] = data['name'] + '- copy';
     return save_domain(data)
 
+
 def get_domains_grouped_by_super_domains():
     super_domains = SuperDomain.get_all()
     domains = Domain.get_all()

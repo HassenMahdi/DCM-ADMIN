@@ -4,7 +4,6 @@ import datetime
 from app.db.Models.domain import Domain
 from app.db.Models.field import TargetField
 from app.db.Models.super_domain import SuperDomain
-from app.main.service.doms_service import get_all_domains, get_domains_by_super_id
 
 
 def save_super_domain(data):
@@ -43,20 +42,29 @@ def delete_super_domain(data):
 
     return super_dom
 
+def get_user_query(user_rights):
+    query = {}
+    if user_rights:
+        if not user_rights['admin']:
+            query = {'_id': {'$in': user_rights['domain_ids']}}
+    return query
 
-def get_all_super_domains():
-    return SuperDomain.get_all()
+
+def get_all_super_domains(user_rights=None):
+    return SuperDomain.get_all(query=get_user_query(user_rights))
 
 
-def get_domains_hierarchy():
-    query_result = SuperDomain().db().aggregate([{
+def get_domains_hierarchy(user_rights={}):
+    query_result = SuperDomain().db().aggregate([
+        {"$match":get_user_query(user_rights)},
+        {
        "$lookup": {
            'from': Domain().db().name,
            'localField': 'identifier',
            'foreignField': 'super_domain_id',
            'as': 'domains'
            }
-       }])
+        }])
 
     hierarchy = []
     for sd in query_result:

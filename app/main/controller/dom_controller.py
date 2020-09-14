@@ -1,10 +1,10 @@
 from flask import request, jsonify
 from flask_restplus import Resource
 
-from app.main.service.auth_helper import Auth
 from ..service.doms_service import get_all_domains, save_domain, get_domains_by_super_id, delete_domain, \
     duplicate_domain, get_domains_grouped_by_super_domains, get_domain
 from ..service.fields_service import duplicate_fields
+from ..util.decorator import token_required
 from ..util.dto import DomainDto
 
 api = DomainDto.api
@@ -18,12 +18,13 @@ class Domains(Resource):
     """
     @api.doc('Get All Domains')
     @api.marshal_list_with(dto)
+    @token_required
     def get(self):
         return get_all_domains()
 
     @api.doc('Create/Update Domains')
     @api.response(201, 'Domain successfully created/updated.')
-    # @api.expect(dto, validate=True)
+    @token_required
     @api.marshal_with(dto)
     def post(self):
         # get the post data
@@ -34,6 +35,7 @@ class Domains(Resource):
     @api.response(201, 'Domain successfully duplicated.')
     @api.expect(dto, validate=True)
     @api.marshal_with(dto)
+    @token_required
     def put(self):
         # get the post data
         post_data = request.json
@@ -45,7 +47,7 @@ class Domains(Resource):
 
     @api.doc('delete Domains')
     @api.response(201, 'Domain successfully deleted.')
-    # @api.expect(dto, validate=True)
+    @token_required
     @api.marshal_with(dto)
     def delete(self):
         # get the post data
@@ -60,6 +62,7 @@ class SubDomains(Resource):
     """
     @api.doc('Get All Domains')
     @api.marshal_list_with(dto)
+    @token_required
     def get(self, super_id):
         return get_domains_by_super_id(super_id)
 
@@ -71,12 +74,14 @@ class DomainDetails(Resource):
     """
     @api.doc('Get All Domains')
     @api.marshal_with(dto)
+    @token_required
     def get(self, dom_id):
         return get_domain(dom_id)
 
     @api.doc('delete Domains')
     @api.response(201, 'Domain successfully deleted.')
     @api.marshal_with(dto)
+    @token_required
     def delete(self, dom_id):
         return delete_domain(data={id:dom_id})
 
@@ -88,6 +93,7 @@ class SubDomainsGrouped(Resource):
     """
 
     @api.doc('Get All Domains Grouped By Super Domains')
+    @token_required
     def get(self):
         res = {"resultat": get_domains_grouped_by_super_domains()}
         return jsonify(res)

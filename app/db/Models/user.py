@@ -1,22 +1,26 @@
-
-from .. import db, flask_bcrypt
 import datetime
-from app.main.model.blacklist import BlacklistToken
-from ..config import key
+
 import jwt
 
+from app.db.Models.black_list_tokem import BlacklistToken
+from app.db.document import Document
+from app.main import flask_bcrypt
+from app.main.config import key
 
-class User(db.Model):
-    """ User Model for storing user related details """
-    __tablename__ = "user"
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    email = db.Column(db.String(255), unique=True, nullable=False)
-    registered_on = db.Column(db.DateTime, nullable=False)
-    admin = db.Column(db.Boolean, nullable=False, default=False)
-    public_id = db.Column(db.String(100), unique=True)
-    username = db.Column(db.String(50), unique=True)
-    password_hash = db.Column(db.String(100))
+class User(Document):
+    __TABLE__ = "users"
+
+    email = None
+    password_hash = None
+    first_name = None
+    last_name = None
+
+    created_on = None
+    modified_on = None
+
+    admin = None
+    roles = None
 
     @property
     def password(self):
@@ -69,4 +73,6 @@ class User(db.Model):
             return 'Invalid token. Please log in again.'
 
     def __repr__(self):
-        return "<User '{}'>".format(self.username)
+        return "<User '{} {}'>".format(self.first_name,self.last_name)
+
+

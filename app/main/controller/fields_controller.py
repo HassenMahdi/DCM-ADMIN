@@ -1,11 +1,10 @@
 from flask import request
 from flask_restplus import Resource
 
-from app.main.service.auth_helper import Auth
 from ..dto.dto_fields import DTOFields
-from ..service.doms_service import get_all_domains, save_domain
 from ..service.fields_service import get_all_fields, save_field, delete_field, fields_from_file, get_simple
-from ..util.dto import DomainDto, FieldsDto
+from ..util.decorator import token_required
+from ..util.dto import FieldsDto
 
 api = FieldsDto.api
 dto = FieldsDto.field
@@ -17,6 +16,7 @@ class Fields(Resource):
     """
         Domain Resource
     """
+    @token_required
     @api.doc('Get All Domains')
     @api.marshal_list_with(dto)
     def get(self, domain_id):
@@ -26,6 +26,7 @@ class Fields(Resource):
     @api.response(201, 'Field successfully created/updated.')
     @api.expect(dto, validate=True)
     @api.marshal_with(dto)
+    @token_required
     def post(self, domain_id):
         # get the post data
         # post_data = request.json
@@ -36,6 +37,7 @@ class Fields(Resource):
     @api.response(201, 'field successfully deleted.')
     @api.expect(dto, validate=True)
     @api.marshal_with(dto)
+    @token_required
     def delete(self, domain_id):
         # get the post data
         # post_data = request.json
@@ -47,6 +49,7 @@ class Fields(Resource):
 @api.param('domain_id', 'Domain ID')
 class FieldsFile(Resource):
 
+    @token_required
     @api.doc('Create/Update Domain Fields')
     def post(self, domain_id):
         # get the file data
@@ -57,6 +60,7 @@ class FieldsFile(Resource):
 @api.param('domain_id', 'Domain ID')
 class FieldsFile(Resource):
 
+    @token_required
     @api.doc('Get simple Domain Fields')
     def get(self, domain_id):
         # get the file data

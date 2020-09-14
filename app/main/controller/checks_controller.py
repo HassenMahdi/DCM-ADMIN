@@ -1,6 +1,7 @@
 from flask_restplus import Resource
 
 from ..service.check_service import get_domain_checks
+from ..util.decorator import token_required
 from ..util.dto import ChecksDto
 
 api = ChecksDto.api
@@ -13,6 +14,7 @@ class Fields(Resource):
     """
         Domain Resource
     """
+    @token_required
     @api.doc('Get All Domains')
     @api.marshal_list_with(user_auth)
     def get(self, domain_id):
