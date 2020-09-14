@@ -5,6 +5,7 @@ from app.db.Models.collection_data import CollectionData
 from app.db.Models.domain import Domain
 from app.db.Models.field import TargetField
 from app.db.Models.super_domain import SuperDomain
+from app.main.service.super_dom_service import get_user_query
 
 
 def get_domain(dom_id):
@@ -71,8 +72,9 @@ def duplicate_domain(data):
     return save_domain(data)
 
 
-def get_domains_grouped_by_super_domains():
-    super_domains = SuperDomain.get_all()
+def get_domains_grouped_by_super_domains(user_rights=None):
+    query = get_user_query(user_rights)
+    super_domains = SuperDomain.get_all(query=query)
     domains = Domain.get_all()
     res = {}
     for super_dom in super_domains:

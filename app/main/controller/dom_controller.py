@@ -1,6 +1,7 @@
 from flask import request, jsonify
 from flask_restplus import Resource
 
+from ..service.auth_helper import Auth
 from ..service.doms_service import get_all_domains, save_domain, get_domains_by_super_id, delete_domain, \
     duplicate_domain, get_domains_grouped_by_super_domains, get_domain
 from ..service.fields_service import duplicate_fields
@@ -91,9 +92,9 @@ class SubDomainsGrouped(Resource):
     """
         Domain Resource
     """
-
     @api.doc('Get All Domains Grouped By Super Domains')
     @token_required
     def get(self):
-        res = {"resultat": get_domains_grouped_by_super_domains()}
+        user_rights, status = Auth.get_logged_in_user_rights(request)
+        res = {"resultat": get_domains_grouped_by_super_domains(user_rights)}
         return jsonify(res)
