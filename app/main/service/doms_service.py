@@ -6,6 +6,7 @@ from app.db.Models.domain import Domain
 from app.db.Models.field import TargetField
 from app.db.Models.super_domain import SuperDomain
 from app.main.service.super_dom_service import get_user_query
+from app.main.util.strings import camelCase
 
 
 def get_domain(dom_id):
@@ -19,7 +20,7 @@ def save_domain(data):
     if super_dom.id:
         dom = Domain(**data).load()
         if not dom.id:
-            identifier = uuid.uuid4().hex.upper()
+            identifier = camelCase(data['label'])
 
             new_dom = Domain(
                 **{**data, **{
