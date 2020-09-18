@@ -4,15 +4,21 @@ import tempfile
 from azure.storage.fileshare import ShareServiceClient, ShareClient, ShareDirectoryClient, ShareFileClient
 from azure.storage.fileshare._download import StorageStreamDownloader
 
+from app.datacheck.utils import default_checks
+
 conn_str = "BlobEndpoint=https://devdcmstorage.blob.core.windows.net/;QueueEndpoint=https://devdcmstorage.queue.core.windows.net/;FileEndpoint=https://devdcmstorage.file.core.windows.net/;TableEndpoint=https://devdcmstorage.table.core.windows.net/;SharedAccessSignature=sv=2019-10-10&ss=bfqt&srt=sco&sp=rwdlacupx&se=2022-07-16T07:57:54Z&st=2020-07-15T23:57:54Z&spr=https&sig=4cDoQPv%2Ba%2FQyBEFcr2pVojyMj4vgsm%2Fld6l9TPveQH0%3D"
 service: ShareClient = ShareServiceClient.from_connection_string(conn_str).get_share_client('datachecks')
 
 
 def get_domain_checks(domain_id):
 
-    checks = get_check_from_shared() + get_check_from_shared(folder_name=domain_id)
+    checks = get_default_checks() + get_check_from_shared(folder_name=domain_id)
 
     return checks
+
+
+def get_default_checks():
+    return default_checks
 
 
 def get_check_from_shared(folder_name='default'):

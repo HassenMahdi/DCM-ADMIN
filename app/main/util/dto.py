@@ -83,5 +83,6 @@ class ChecksDto:
         'name': fields.String(description='user email address'),
         'description': NullableString(description='user username'),
         'category': fields.String(description='user username'),
-        'parameters': fields.List(fields.Nested(check_param))
+        'parameters': fields.List(fields.Nested(check_param)),
+        'property_types': fields.List(fields.String)
     })

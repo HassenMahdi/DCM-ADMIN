@@ -22,6 +22,7 @@ class CheckAbstract:
     category = None
     description = None
     parameters = []
+    property_types = None
 
     @abstractmethod
     # CONDITION SHOULD BE TRUE IF VALUE IS VALID

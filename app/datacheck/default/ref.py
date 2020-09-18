@@ -1,7 +1,7 @@
 from app.datacheck import CheckAbstract, CheckParam
 
 
-class Check(CheckAbstract):
+class ReferenceCheck(CheckAbstract):
 
     id = "REFERENCE_CHECK"
     name = "Reference Value Check"
