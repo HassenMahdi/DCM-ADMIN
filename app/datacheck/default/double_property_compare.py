@@ -16,7 +16,7 @@ class DoublePropertyOperation(CheckAbstract):
             {'key': '>', 'value': 'Greater'},
             {'key': '>=', 'value': 'Greater or equal'},
         ]),
-        CheckParam('property', label='Target Field', type='property'),
+        CheckParam('property', label='Target Field', type='property' ,property_types=property_types),
     ]
 
     def check_column(self, df, column, *args, **kwargs):
