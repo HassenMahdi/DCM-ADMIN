@@ -74,8 +74,9 @@ class ChecksDto:
     check_param = api.model('check param', {
         'name': fields.String,
         'type': fields.String,
+        'options': fields.List(fields.Raw),
+        'property_types': fields.List(fields.String),
         'label': fields.String,
-        'options': fields.List(fields.Raw)
     })
 
     check = api.model('check', {
