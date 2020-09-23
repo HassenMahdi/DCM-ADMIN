@@ -4,12 +4,19 @@ import datetime
 from app.db.Models.domain import Domain
 from app.db.Models.field import TargetField
 from app.db.Models.super_domain import SuperDomain
+from app.main.util.strings import get_next_iteration, camelCase
 
 
 def save_super_domain(data):
     dom = SuperDomain(**data).load()
     if not dom.id:
-        identifier = uuid.uuid4().hex.upper()
+        identifier = camelCase(data['name'])
+        next_iter = get_next_iteration(
+            SuperDomain().db().find({'identifier': {'$regex': f"{identifier}(_[1-9]+)?"}}, {'identifier': 1})
+        )
+        if next_iter > 0:
+            identifier = f"{identifier}_{str(next_iter)}"
+
         new_dom = SuperDomain(
             **{**data, **{
                 'id': identifier,
