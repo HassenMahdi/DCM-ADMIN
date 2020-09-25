@@ -87,3 +87,26 @@ class ChecksDto:
         'parameters': fields.List(fields.Nested(check_param)),
         'property_types': fields.List(fields.String)
     })
+
+
+class ReferenceTypeDto:
+    api = Namespace('ref_type', description='ref_type')
+    ref_type = api.model('Reference Type', {
+        'id': NullableString,
+        'label': fields.String,
+        'description': fields.String,
+        'properties': fields.List(fields.Raw),
+        'domain_ids': fields.List(fields.String),
+        'created_on': fields.DateTime,
+        'modified_on': fields.DateTime,
+    })
+    ref_data = api.model('Reference Data', {
+        'id': NullableString,
+        'code': fields.String,
+        'ref_type_id':fields.String,
+        'alias': fields.List(fields.String),
+        'created_on': fields.DateTime,
+        'modified_on': fields.DateTime,
+        'properties':fields.Raw
+    })
+
