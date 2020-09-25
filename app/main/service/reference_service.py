@@ -1,14 +1,6 @@
-import uuid
 import datetime
-
-from app.db.Models.collection_data import CollectionData
-from app.db.Models.domain import Domain
-from app.db.Models.field import TargetField
 from app.db.Models.reference_data import ReferenceData
 from app.db.Models.reference_type import ReferenceType
-from app.db.Models.super_domain import SuperDomain
-from app.main.service.super_dom_service import get_user_query
-from app.main.util.strings import camelCase, get_next_iteration
 
 
 def get_ref_type(ref_type_id):
@@ -36,7 +28,8 @@ def save_ref_type(data):
 
 
 def delete_ref_type(ref_type_id):
-    return ReferenceType().load(dict(id=ref_type_id)).delete()
+    ReferenceData().db().remove(dict(ref_type_id=ref_type_id))
+    return ReferenceType().load(dict(_id=ref_type_id)).delete()
 
 
 def get_all_ref_types(domain_id = None):
@@ -71,7 +64,7 @@ def save_ref_data(data):
 
 
 def delete_ref_data(ref_id):
-    return ReferenceData().load(dict(id=ref_id)).delete()
+    return ReferenceData().load(dict(_id=ref_id)).delete()
 
 
 def get_all_ref_data(ref_type_id = None):

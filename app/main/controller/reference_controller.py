@@ -41,7 +41,7 @@ class RefTypeList(Resource):
 class RefType(Resource):
     @api.doc('delete field')
     @api.response(201, 'field successfully deleted.')
-    @api.expect(ref_type, validate=True)
+    # @api.expect(ref_type, validate=True)
     @api.marshal_with(ref_type)
     @token_required
     def delete(self, domain_id, ref_type_id):
@@ -79,7 +79,7 @@ class RefDataList(Resource):
 class RefData(Resource):
     @api.doc('delete field')
     @api.response(201, 'field successfully deleted.')
-    @api.expect(ref_data, validate=True)
+    # @api.expect(ref_data, validate=True)
     @api.marshal_with(ref_data)
     @token_required
     def delete(self, ref_id):

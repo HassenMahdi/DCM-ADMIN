@@ -94,7 +94,7 @@ class ReferenceTypeDto:
     ref_type = api.model('Reference Type', {
         'id': NullableString,
         'label': fields.String,
-        'description': fields.String,
+        'description': NullableString,
         'properties': fields.List(fields.Raw),
         'domain_ids': fields.List(fields.String),
         'created_on': fields.DateTime,
