@@ -4,7 +4,7 @@ from flask_restplus import Resource
 from ..dto.dto_fields import DTOFields
 from ..service.fields_service import get_all_fields, save_field, delete_field, fields_from_file, get_simple
 from ..service.reference_service import save_ref_type, get_all_ref_types, delete_ref_type, get_all_ref_data, \
-    save_ref_data, delete_ref_data, get_ref_type
+    save_ref_data, delete_ref_data, get_ref_type, import_ref_data_from_file
 from ..util.decorator import token_required
 from ..util.dto import FieldsDto, ReferenceTypeDto
 
@@ -84,6 +84,17 @@ class RefData(Resource):
     @token_required
     def delete(self, ref_id):
         return delete_ref_data(ref_id)
+
+
+@api.route('/reference_data/<ref_type_id>/import')
+@api.param('ref_type_id', 'Domain ID')
+class RefData(Resource):
+    @api.doc('import ref')
+    @api.response(201, 'Ref Data successfully deleted.')
+    @token_required
+    def post(self, ref_type_id):
+        # get the file data
+        return import_ref_data_from_file(request.files['file'], ref_type_id)
 
 
 
