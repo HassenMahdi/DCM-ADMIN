@@ -9,7 +9,7 @@ class ReferenceCheck(CheckAbstract):
     description = None
 
     parameters = [
-        CheckParam('reference_type', label='Type')
+        # CheckParam('reference_type', label='Type')
     ]
 
     def check_column(self, df, column, *args, **kwargs):

@@ -1,4 +1,6 @@
+from app.datacheck.default.ref import ReferenceCheck
 from app.db.Models.field import TargetField
+from app.db.Models.reference_type import ReferenceType
 
 
 class DTOFields():
@@ -10,6 +12,12 @@ class DTOFields():
         for rule in d.get('rules', []):
             if "property" in rule and rule["property"]:
                 rule["property"] = rule["property"]['value']
+
+            if rule['type'] is ReferenceCheck.id:
+                ref_type = rule.get['conditions']['ref_type']
+                if ref_type:
+                    rule['conditions']['ref_type_id'] = ref_type['value']
+                    del rule['conditions']['ref_type']
 
             new_d['rules'].append(rule)
 
@@ -26,6 +34,13 @@ class DTOFields():
             if "property" in rule and rule["property"]:
                 tf = TargetField().load({'name': rule["property"]}, domain_id=domain_id)
                 rule["property"] = {'value': tf.name, 'label':tf.label}
+
+            if rule['type'] is ReferenceCheck.id:
+                ref_type_id = rule.get['conditions']['ref_type_id']
+                if ref_type_id:
+                    ref_type = ReferenceType().load({'_id': ref_type_id})
+                    rule['conditions']['ref_type'] = dict(value=ref_type.id, label=ref_type.label)
+                    del rule['conditions']['ref_type_id']
 
             dto.rules.append(rule)
 
