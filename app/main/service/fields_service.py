@@ -3,6 +3,8 @@ import datetime
 
 import xlrd
 
+from app.datacheck.default.empty import EmptyCheck
+from app.datacheck.default.ref import ReferenceCheck
 from app.db.Models.domain import Domain
 from app.db.Models.field import TargetField
 from app.main.util.strings import camelCase
@@ -80,6 +82,9 @@ def fields_from_file(file, domain_id):
         for col in range(sh.ncols):
             data_field_name = col_field[first_row[col]]
             elm[data_field_name] = sh.cell_value(row, col)
+
+        if elm.get('mandatory', None):
+            elm.setdefault('rules', []).append({'type': EmptyCheck.id})
 
         fields_data.append(elm)
 
