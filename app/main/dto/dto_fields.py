@@ -13,8 +13,8 @@ class DTOFields():
             if "property" in rule and rule["property"]:
                 rule["property"] = rule["property"]['value']
 
-            if rule['type'] is ReferenceCheck.id:
-                ref_type = rule.get['conditions']['ref_type']
+            if rule['type'] == ReferenceCheck.id:
+                ref_type = rule.get('conditions', {}).get('ref_type', None)
                 if ref_type:
                     rule['conditions']['ref_type_id'] = ref_type['value']
                     del rule['conditions']['ref_type']
@@ -35,8 +35,8 @@ class DTOFields():
                 tf = TargetField().load({'name': rule["property"]}, domain_id=domain_id)
                 rule["property"] = {'value': tf.name, 'label':tf.label}
 
-            if rule['type'] is ReferenceCheck.id:
-                ref_type_id = rule.get['conditions']['ref_type_id']
+            if rule['type'] == ReferenceCheck.id:
+                ref_type_id = rule.get('conditions', {}).get('ref_type_id', None)
                 if ref_type_id:
                     ref_type = ReferenceType().load({'_id': ref_type_id})
                     rule['conditions']['ref_type'] = dict(value=ref_type.id, label=ref_type.label)
