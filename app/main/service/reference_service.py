@@ -40,7 +40,7 @@ def delete_ref_type(ref_type_id):
 def get_all_ref_types(domain_id = None):
     query = {}
     if domain_id:
-        query = query.update({"domain_ids":{"$all": [domain_id]}})
+        query = {"domain_ids":{"$all": [domain_id]}}
     return ReferenceType().get_all(query)
 
 
