@@ -3,7 +3,7 @@ from app.datacheck import CheckAbstract, CheckParam
 
 class DoubleOperation(CheckAbstract):
 
-    id = "NUMERIC_BOUNDRY"
+    id = "NUMERIC_BOUNDRY_CHECK"
     name = "Numeric Boundry Value Check"
     category = None
     description = None
