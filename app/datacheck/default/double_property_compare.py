@@ -11,10 +11,10 @@ class DoublePropertyOperation(CheckAbstract):
 
     parameters = [
         CheckParam('operator', label='Operator', type='select', options=[
-            {'key': '<', 'value': 'Lesser'},
-            {'key': '<=', 'value': 'Lesser or equal'},
-            {'key': '>', 'value': 'Greater'},
-            {'key': '>=', 'value': 'Greater or equal'},
+            {'key': '<', 'value': '<'},
+            {'key': '<=', 'value': '<='},
+            {'key': '>', 'value': '>'},
+            {'key': '>=', 'value': '>='},
         ]),
         CheckParam('property', label='Target Field', type='property',property_types=property_types),
     ]

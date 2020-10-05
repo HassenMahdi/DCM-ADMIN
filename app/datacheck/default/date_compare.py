@@ -11,8 +11,8 @@ class DateComparison(CheckAbstract):
 
     parameters = [
         CheckParam('operator', label='Operator', type='select', options=[
-            {'key': '<', 'value': 'Before'},
-            {'key': '>', 'value': 'After'}
+            {'key': '<', 'value': '<'},
+            {'key': '>', 'value': '>'}
         ]),
         CheckParam('operand', label='Date', type='date')
     ]

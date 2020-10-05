@@ -11,10 +11,10 @@ class DoubleOperation(CheckAbstract):
 
     parameters = [
         CheckParam('operator', label='Operator', type='select', options=[
-            {'key': '<', 'value': 'Lesser'},
-            {'key': '<=', 'value': 'Lesser or equal'},
-            {'key': '>', 'value': 'Greater'},
-            {'key': '>=', 'value': 'Greater or equal'},
+            {'key': '<', 'value': '<'},
+            {'key': '<=', 'value': '<='},
+            {'key': '>', 'value': '>'},
+            {'key': '>=', 'value': '>='},
         ]),
         CheckParam('operand', label='Value', type='number')
     ]
