@@ -1,7 +1,7 @@
 from app.datacheck import CheckAbstract, CheckParam
 
 
-class Check(CheckAbstract):
+class FormatCheck(CheckAbstract):
 
     id = "FORMAT_CHECK"
     name = "Format Check"
@@ -13,7 +13,8 @@ class Check(CheckAbstract):
             {'key': 'exp1', 'value':'n,nnn.nn'},
             {'key': 'exp2', 'value':'mm-dd-yyyy'},
             {'key': 'exp3', 'value':'(String)-(String)'},
-        ])
+        ]),
+        CheckParam('custom', label='Custom Regex', type='checkbox')
     ]
 
     def check_column(self, df, column, *args, **kwargs):

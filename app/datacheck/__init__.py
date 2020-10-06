@@ -3,7 +3,7 @@ from abc import abstractmethod
 
 class CheckParam:
 
-    def __init__(self, name, type=None, role=None, label= None, options= None):
+    def __init__(self, name, type=None, role=None, label= None, options= None, property_types=None):
 
         self.type = type or 'input'
         self.role = role
@@ -14,6 +14,8 @@ class CheckParam:
             self.options = options
             self.radio = True
 
+        self.property_types = property_types
+
 
 class CheckAbstract:
 
@@ -22,6 +24,7 @@ class CheckAbstract:
     category = None
     description = None
     parameters = []
+    property_types = None
 
     @abstractmethod
     # CONDITION SHOULD BE TRUE IF VALUE IS VALID

@@ -6,6 +6,7 @@ from app.db.Models.domain import Domain
 from app.db.Models.field import TargetField
 from app.db.Models.super_domain import SuperDomain
 from app.main.service.super_dom_service import get_user_query
+from app.main.util.strings import camelCase, get_next_iteration
 
 
 def get_domain(dom_id):
@@ -19,7 +20,13 @@ def save_domain(data):
     if super_dom.id:
         dom = Domain(**data).load()
         if not dom.id:
-            identifier = uuid.uuid4().hex.upper()
+            identifier = camelCase(data['name'])
+            max = get_next_iteration(
+                Domain().db().find({'identifier':{'$regex': f"{identifier}(_[1-9]+)?"}},{'identifier':1})
+            )
+
+            if max > 0:
+                identifier = f"{identifier}_{str(max)}"
 
             new_dom = Domain(
                 **{**data, **{
@@ -68,7 +75,6 @@ def get_domains_by_super_id(super_id):
 def duplicate_domain(data):
     data['id'] = None;
     data['identifier'] = None;
-    data['name'] = data['name'] + '- copy';
     return save_domain(data)
 
 

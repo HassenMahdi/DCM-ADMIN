@@ -1,7 +1,7 @@
 from app.datacheck import CheckAbstract, CheckParam
 
 
-class Check(CheckAbstract):
+class ReferenceCheck(CheckAbstract):
 
     id = "REFERENCE_CHECK"
     name = "Reference Value Check"
@@ -9,7 +9,7 @@ class Check(CheckAbstract):
     description = None
 
     parameters = [
-        CheckParam('reference_type', label='Type')
+        # CheckParam('reference_type', label='Type')
     ]
 
     def check_column(self, df, column, *args, **kwargs):

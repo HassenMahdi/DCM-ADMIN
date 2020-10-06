@@ -74,8 +74,9 @@ class ChecksDto:
     check_param = api.model('check param', {
         'name': fields.String,
         'type': fields.String,
+        'options': fields.List(fields.Raw),
+        'property_types': fields.List(fields.String),
         'label': fields.String,
-        'options': fields.List(fields.Raw)
     })
 
     check = api.model('check', {
@@ -83,5 +84,29 @@ class ChecksDto:
         'name': fields.String(description='user email address'),
         'description': NullableString(description='user username'),
         'category': fields.String(description='user username'),
-        'parameters': fields.List(fields.Nested(check_param))
+        'parameters': fields.List(fields.Nested(check_param)),
+        'property_types': fields.List(fields.String)
     })
+
+
+class ReferenceTypeDto:
+    api = Namespace('ref_type', description='ref_type')
+    ref_type = api.model('Reference Type', {
+        'id': NullableString,
+        'label': fields.String,
+        'description': NullableString,
+        'properties': fields.List(fields.Raw),
+        'domain_ids': fields.List(fields.String),
+        'created_on': fields.DateTime,
+        'modified_on': fields.DateTime,
+    })
+    ref_data = api.model('Reference Data', {
+        'id': NullableString,
+        'code': fields.String,
+        'ref_type_id':fields.String,
+        'alias': fields.List(fields.String),
+        'created_on': fields.DateTime,
+        'modified_on': fields.DateTime,
+        'properties':fields.Raw
+    })
+

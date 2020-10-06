@@ -1,7 +1,7 @@
 from app.datacheck import CheckAbstract, CheckParam
 
 
-class Check(CheckAbstract):
+class EmptyCheck(CheckAbstract):
 
     id = "EMPTY_CHECK"
     name = "Empty Cell Check"
