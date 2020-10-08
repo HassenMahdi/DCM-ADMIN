@@ -31,9 +31,13 @@ def save_super_domain(data):
     dom.description = data.get('description')
     dom.modified_on = datetime.datetime.utcnow()
 
+    # CHECK IF NAME IS USE
+    if SuperDomain().db().find_one({'_id':{'$ne': dom.id}, 'name': dom.name }):
+        return {"status":'fail', "message": 'Domain name already used'}, 409
+
     dom.save()
 
-    return dom
+    return {"status":'success', "message": 'Domain saved'}, 201
 
 
 def delete_super_domain(data):

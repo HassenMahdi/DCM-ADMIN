@@ -26,7 +26,7 @@ class SuperDomains(Resource):
     @token_required
     @api.doc('Create/Update Super Domains')
     @api.response(201, 'Super Domain successfully created/updated.')
-    @api.marshal_with(dto)
+    # @api.marshal_with(dto, code=201)
     def post(self):
         # get the post data
         post_data = request.json

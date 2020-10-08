@@ -20,7 +20,7 @@ def save_domain(data):
     if super_dom.id:
         dom = Domain(**data).load()
         if not dom.id:
-            identifier = camelCase(data['name'])
+            identifier = super_dom.id + '_' + camelCase(data['name'])
             max = get_next_iteration(
                 Domain().db().find({'identifier':{'$regex': f"{identifier}(_[1-9]+)?"}},{'identifier':1})
             )
@@ -43,11 +43,14 @@ def save_domain(data):
         dom.description = data.get('description', None)
         dom.modified_on = datetime.datetime.utcnow()
 
+        if Domain().db().find_one({'_id': {'$ne': dom.id}, 'name': dom.name, 'super_domain_id': super_dom.id}):
+            return {"status": 'fail', "message": 'Collection name already used in this Domain'}, 409
+
         dom.save()
     else:
-        raise Exception(f'NO SUPER DOMAIN WITH ID {super_domain_id} FOUND')
+        return {"status": "fail", "message": "No collection with provided ID found"}, 409
 
-    return dom
+    return {"status": "success", "message": "Collection saved"}, 201
 
 
 def delete_domain(data):

@@ -26,7 +26,7 @@ class Domains(Resource):
     @api.doc('Create/Update Domains')
     @api.response(201, 'Domain successfully created/updated.')
     @token_required
-    @api.marshal_with(dto)
+    # @api.marshal_with(dto)
     def post(self):
         # get the post data
         post_data = request.json
