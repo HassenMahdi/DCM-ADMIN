@@ -7,6 +7,7 @@ from app.datacheck.default.empty import EmptyCheck
 from app.datacheck.default.ref import ReferenceCheck
 from app.db.Models.domain import Domain
 from app.db.Models.field import TargetField
+from app.db.Models.mapping import Mapping
 from app.main.util.strings import camelCase
 
 
@@ -45,8 +46,15 @@ def save_field(data, domain_id):
 
 
 def delete_field(data, domain_id):
-    tf = TargetField(**data).delete(domain_id=domain_id)
-    return tf
+    tf = TargetField(**data).load(domain_id=domain_id)
+
+    if tf.is_used(domain_id):
+        return {"status": "fail", "message": "Target Field cannot be deleted."}, 409
+    elif Mapping.is_using_field(tf.name, domain_id):
+        return {"status": "fail", "message": "Target Field is used in mapping."}, 409
+
+    tf.delete(domain_id=domain_id)
+    return {"status":"success", "message": "Target Field deleted."}, 200
 
 
 def get_all_fields(domain_id):

@@ -36,13 +36,13 @@ class Fields(Resource):
     @api.doc('delete field')
     @api.response(201, 'field successfully deleted.')
     @api.expect(dto, validate=True)
-    @api.marshal_with(dto)
+    # @api.marshal_with(dto)
     @token_required
     def delete(self, domain_id):
         # get the post data
         # post_data = request.json
         post_data = DTOFields.from_dto_dict_to_dao_dict(request.json)
-        return DTOFields.from_dao_to_dto(delete_field(data=post_data, domain_id = domain_id), domain_id)
+        return delete_field(data=post_data, domain_id = domain_id)
 
 
 @api.route('/<domain_id>/fields/file')

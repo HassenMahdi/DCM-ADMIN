@@ -38,7 +38,7 @@ def delete_ref_type(ref_type_id):
     ref_type = ReferenceType().load(dict(_id=ref_type_id))
     for domain_id in ref_type.domain_ids:
         if TargetField().db(domain_id=domain_id).find_one({'rules.conditions.ref_type_id' : ref_type.id}):
-            return {'status': 'fail', 'message': 'Reference Type cannot be deleted'}, 409
+            return {'status': 'fail', 'message': 'Reference Type cannot be deleted because it is used.'}, 409
 
     ReferenceData().db().remove(dict(ref_type_id=ref_type_id))
     ref_type.delete()
