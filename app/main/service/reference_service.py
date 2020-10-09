@@ -3,6 +3,7 @@ import datetime
 import xlrd
 from pymongo import InsertOne
 
+from app.db.Models.field import TargetField
 from app.db.Models.reference_data import ReferenceData
 from app.db.Models.reference_type import ReferenceType
 from app.main.util.strings import generate_id
@@ -33,8 +34,16 @@ def save_ref_type(data):
 
 
 def delete_ref_type(ref_type_id):
+    # CHECK IF REF TYPE IS USED
+    ref_type = ReferenceType().load(dict(_id=ref_type_id))
+    for domain_id in ref_type.domain_ids:
+        if TargetField().db(domain_id=domain_id).find_one({'rules.conditions.ref_type_id' : ref_type.id}):
+            return {'status': 'fail', 'message': 'Reference Type cannot be deleted'}, 409
+
     ReferenceData().db().remove(dict(ref_type_id=ref_type_id))
-    return ReferenceType().load(dict(_id=ref_type_id)).delete()
+    ref_type.delete()
+
+    return {'status':'success', 'message':'Reference Type deleted'}, 200
 
 
 def get_all_ref_types(domain_id = None):

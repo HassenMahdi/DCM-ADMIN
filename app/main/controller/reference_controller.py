@@ -42,7 +42,7 @@ class RefType(Resource):
     @api.doc('delete field')
     @api.response(201, 'field successfully deleted.')
     # @api.expect(ref_type, validate=True)
-    @api.marshal_with(ref_type)
+    # @api.marshal_with(ref_type)
     @token_required
     def delete(self, domain_id, ref_type_id):
         return delete_ref_type(ref_type_id)
