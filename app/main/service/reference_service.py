@@ -116,6 +116,7 @@ def import_ref_data_from_file(file, ref_type_id):
             ref_data['properties'][property_code]= data.get(property_code, None)
 
         ops.append(ref_data)
-    ReferenceData().db().delete_many({})
+
+    ReferenceData().db().delete_many({"ref_type_id": ref_type_id})
     ReferenceData().db().insert_many(ops)
     return
