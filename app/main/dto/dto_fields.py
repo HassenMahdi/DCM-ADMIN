@@ -29,6 +29,8 @@ class DTOFields():
             ref_type_obj = ReferenceType().load({'_id': dao.ref_type_id})
             ref_type = dict(value=ref_type_obj.id, label=ref_type_obj.label)
             dto.ref_type = ref_type
+        else:
+            dto.ref_type = None
 
         dto.rules = []
         for rule in dao.rules:
