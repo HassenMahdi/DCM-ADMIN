@@ -20,6 +20,7 @@ class TargetField(Document):
     rules = None
     editable = None
     mandatory = None
+    ref_type_id = None
 
     def is_used(self, domain_id):
         if TargetField().db(domain_id=domain_id).find_one({'rules.property': self.name, '_id': {"$ne": self.id}}):

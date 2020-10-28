@@ -46,7 +46,7 @@ class SuperDomainDto:
         'id': NullableString(description='user password'),
         'created_on': fields.DateTime(description='user Identifier'),
         'modified_on': fields.DateTime(description='user Identifier'),
-        'domains': fields.List(fields.Nested(DomainDto.domain))
+        'domains': fields.List(fields.Nested(DomainDto.domain)),
     })
 
 
@@ -64,6 +64,7 @@ class FieldsDto:
         'rules': fields.List(fields.Raw, description='list of rules'),
         'created_on': fields.DateTime(description='user Identifier'),
         'modified_on': fields.DateTime(description='user Identifier'),
+        'ref_type': fields.Raw(),
     })
 
 

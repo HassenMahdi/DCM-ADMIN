@@ -36,6 +36,7 @@ def save_field(data, domain_id):
         target_field.editable = data.get('editable', False)
         target_field.rules = data.get('rules', [])
         target_field.modified_on = datetime.datetime.utcnow()
+        target_field.ref_type_id = data.get('ref_type_id', None)
 
         target_field.save(domain_id=domain_id)
 
