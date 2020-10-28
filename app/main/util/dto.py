@@ -6,6 +6,11 @@ class NullableString(fields.String):
     __schema_example__ = 'nullable string'
 
 
+class NullableRaw(fields.Raw):
+    __schema_type__ = ['object', 'null']
+    __schema_example__ = 'nullable object'
+
+
 class UserDto:
     api = Namespace('user', description='user related operations')
     user = api.model('user', {
@@ -64,7 +69,7 @@ class FieldsDto:
         'rules': fields.List(fields.Raw, description='list of rules'),
         'created_on': fields.DateTime(description='user Identifier'),
         'modified_on': fields.DateTime(description='user Identifier'),
-        'ref_type': fields.Raw(),
+        'ref_type': NullableRaw,
     })
 
 
