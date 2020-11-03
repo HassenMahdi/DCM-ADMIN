@@ -17,6 +17,7 @@ class ReferenceType(Document):
     domain_ids = None
     created_on = None
     modified_on = None
+    shared = False
 
 
 

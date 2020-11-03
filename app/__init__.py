@@ -17,5 +17,5 @@ api = Api(blueprint,
 api.add_namespace(doms_ns, path='/domain')
 api.add_namespace(flds_ns, path='/domain')
 api.add_namespace(chks_ns, path='/domain')
-api.add_namespace(ref_ns, path='/domain')
+api.add_namespace(ref_ns, path='/reference')
 api.add_namespace(super_ns, path='/domain/super')

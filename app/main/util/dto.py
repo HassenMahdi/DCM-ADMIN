@@ -105,6 +105,7 @@ class ReferenceTypeDto:
         'domain_ids': fields.List(fields.String),
         'created_on': fields.DateTime,
         'modified_on': fields.DateTime,
+        'shared': fields.Boolean,
     })
     ref_data = api.model('Reference Data', {
         'id': NullableString,

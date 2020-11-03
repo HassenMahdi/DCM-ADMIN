@@ -27,6 +27,7 @@ def save_ref_type(data):
     ref_type.properties = data.get('properties', [])
     ref_type.modified_on = datetime.datetime.now()
     ref_type.domain_ids = data.get('domain_ids', [])
+    ref_type.shared = data.get('shared', False)
 
     ref_type.save()
 
@@ -46,10 +47,20 @@ def delete_ref_type(ref_type_id):
     return {'status':'success', 'message':'Reference Type deleted'}, 200
 
 
-def get_all_ref_types(domain_id = None):
+def share_ref_type(ref_type_id, domain_ids):
+    # CHECK IF REF TYPE IS USED
+    ref_type = ReferenceType().load(dict(_id=ref_type_id))
+    ref_type.domain_ids = domain_ids
+    ref_type.save()
+
+    return {'status':'success', 'message':'Reference Type Collection Updated'}, 200
+
+
+def get_all_ref_types(domain_id = None, include_shared = True):
     query = {}
     if domain_id:
-        query = {"domain_ids":{"$all": [domain_id]}}
+        query = {"$or":[{"domain_ids":{"$all": [domain_id]}}, {"shared": True}]}
+
     return ReferenceType().get_all(query)
 
 
