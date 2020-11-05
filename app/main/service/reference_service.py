@@ -3,6 +3,7 @@ import datetime
 import xlrd
 from pymongo import InsertOne
 
+from app.db.Models.domain import Domain
 from app.db.Models.field import TargetField
 from app.db.Models.reference_data import ReferenceData
 from app.db.Models.reference_type import ReferenceType
@@ -38,7 +39,7 @@ def delete_ref_type(ref_type_id):
     # CHECK IF REF TYPE IS USED
     ref_type = ReferenceType().load(dict(_id=ref_type_id))
     for domain_id in ref_type.domain_ids:
-        if TargetField().db(domain_id=domain_id).find_one({'ref_type_id' : ref_type.id}):
+        if ref_type.is_used_in_domain(domain_id):
             return {'status': 'fail', 'message': 'Reference Type cannot be deleted because it is used.'}, 409
 
     ReferenceData().db().remove(dict(ref_type_id=ref_type_id))
@@ -50,6 +51,15 @@ def delete_ref_type(ref_type_id):
 def share_ref_type(ref_type_id, domain_ids):
     # CHECK IF REF TYPE IS USED
     ref_type = ReferenceType().load(dict(_id=ref_type_id))
+
+    # CHEKC IF REF TYPE IS USED
+    removed_domains_ids = set(domain_ids).union(set(ref_type.domain_ids)).difference(set(domain_ids))
+    for domain_id in removed_domains_ids:
+        if ref_type.is_used_in_domain(domain_id):
+            domain = Domain().load(dict(_id=domain_id))
+            if domain.id:
+                return {'status': 'fail', 'message': f'Cannot remove {ref_type.label} from domain {domain.name}.'}, 409
+
     ref_type.domain_ids = domain_ids
     ref_type.save()
 
