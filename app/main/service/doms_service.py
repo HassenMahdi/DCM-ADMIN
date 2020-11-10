@@ -15,14 +15,14 @@ def get_domain(dom_id):
 
 def save_domain(data):
     super_domain_id = data['super_domain_id']
-    super_dom = SuperDomain(**{'id':super_domain_id}).load()
+    super_dom = SuperDomain(**{'id': super_domain_id}).load()
 
     if super_dom.id:
         dom = Domain(**data).load()
         if not dom.id:
             identifier = super_dom.id + '_' + camelCase(data['name'])
             max = get_next_iteration(
-                Domain().db().find({'identifier':{'$regex': f"{identifier}(_[1-9]+)?"}},{'identifier':1})
+                Domain().db().find({'identifier': {'$regex': f"{identifier}(_[1-9]+)?"}}, {'identifier': 1})
             )
 
             if max > 0:
@@ -41,6 +41,8 @@ def save_domain(data):
 
         dom.name = data.get('name', None)
         dom.description = data.get('description', None)
+        dom.classification = data.get('classification', None)
+        dom.enableDF = data.get('enableDF', None)
         dom.modified_on = datetime.datetime.utcnow()
 
         if Domain().db().find_one({'_id': {'$ne': dom.id}, 'name': dom.name, 'super_domain_id': super_dom.id}):
@@ -72,12 +74,12 @@ def get_all_domains():
 
 
 def get_domains_by_super_id(super_id):
-    return Domain.get_all(query={'super_domain_id':super_id})
+    return Domain.get_all(query={'super_domain_id': super_id})
 
 
 def duplicate_domain(data):
-    data['id'] = None;
-    data['identifier'] = None;
+    data['id'] = None
+    data['identifier'] = None
     return save_domain(data)
 
 

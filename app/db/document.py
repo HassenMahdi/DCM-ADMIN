@@ -27,7 +27,7 @@ class Document:
     def db(self, **kwargs):
         return mongo.db[self.__TABLE__]
 
-    def save(self , **kwargs):
+    def save(self, **kwargs):
         self._id = self._id or generate_id()
         self._id = self.db(**kwargs).save(self.to_dict())
         return self

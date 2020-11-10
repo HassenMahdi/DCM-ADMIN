@@ -7,7 +7,7 @@ class DTOFields():
 
     @staticmethod
     def from_dto_dict_to_dao_dict(d):
-        new_d = {**d, 'rules':[]}
+        new_d = {**d, 'rules': []}
 
         if new_d.get('ref_type'):
             new_d['ref_type_id'] = new_d.get('ref_type').get('value')

@@ -84,7 +84,7 @@ class DomainDetails(Resource):
     @api.marshal_with(dto)
     @token_required
     def delete(self, dom_id):
-        return delete_domain(data={id:dom_id})
+        return delete_domain(data={id: dom_id})
 
 
 @api.route('/all/super')
