@@ -10,4 +10,7 @@ class Domain(Document):
     created_on = None
     modified_on = None
     super_domain_id = None
+    classification = None
+    enableDF = False
+
 

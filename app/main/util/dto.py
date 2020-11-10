@@ -40,7 +40,7 @@ class DomainDto:
         'super_domain_id': fields.String(required=True, description='Super Domain Id'),
         'modified_on': fields.DateTime(description='user Identifier'),
         'classification': fields.String(required=True, description='collection classification'),
-        'enableDF': fields.String(required=True, description='Enable Data Factory')
+        'enableDF': fields.Boolean(description='Enable Data Factory')
     })
 
 

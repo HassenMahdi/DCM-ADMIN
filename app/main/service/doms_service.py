@@ -42,7 +42,7 @@ def save_domain(data):
         dom.name = data.get('name', None)
         dom.description = data.get('description', None)
         dom.classification = data.get('classification', None)
-        dom.enableDF = data.get('enableDF', None)
+        dom.enableDF = data.get('enableDF', False)
         dom.modified_on = datetime.datetime.utcnow()
 
         if Domain().db().find_one({'_id': {'$ne': dom.id}, 'name': dom.name, 'super_domain_id': super_dom.id}):
