@@ -35,7 +35,7 @@ def save_ref_type(data):
 
     ref_type.save()
 
-    return ref_type
+    return {"status": 'success', "message": 'Reference Type Saved'}, 201
 
 
 def delete_ref_type(ref_type_id):

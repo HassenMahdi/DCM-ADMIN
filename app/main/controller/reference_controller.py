@@ -32,7 +32,6 @@ class RefTypeList(Resource):
     @api.doc('Create/Update Domain Fields')
     @api.response(201, 'Field successfully created/updated.')
     @api.expect(ref_type, validate=True)
-    @api.marshal_with(ref_type)
     @token_required
     def post(self):
         data = request.json
