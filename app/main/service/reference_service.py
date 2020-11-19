@@ -30,6 +30,9 @@ def save_ref_type(data):
     ref_type.domain_ids = data.get('domain_ids', [])
     ref_type.shared = data.get('shared', False)
 
+    if ReferenceType().db().find_one({'_id': {'$ne': ref_type.id}, 'label': ref_type.label}):
+        return {"status": 'fail', "message": 'Reference Type Name Already Exists'}, 409
+
     ref_type.save()
 
     return ref_type
