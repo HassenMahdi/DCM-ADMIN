@@ -85,7 +85,7 @@ def save_ref_data(data):
     ref_id = data.get('id', None)
     ref_data = ReferenceData()
     if ref_id:
-        ref_data.load(dict(_id=ref_id))
+        ref_data.load({"_id": ref_id})
 
     if not ref_data.id:
         ref_data.created_on = datetime.datetime.now()
