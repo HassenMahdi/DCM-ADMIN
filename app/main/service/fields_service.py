@@ -1,5 +1,6 @@
 import uuid
 import datetime
+from copy import copy
 
 import xlrd
 
@@ -7,6 +8,7 @@ from app.datacheck.default.empty import EmptyCheck
 from app.datacheck.default.ref import ReferenceCheck
 from app.db.Models.domain import Domain
 from app.db.Models.field import TargetField
+from app.db.Models.flow_context import FlowContext
 from app.db.Models.mapping import Mapping
 from app.main.util.strings import camelCase
 
@@ -16,6 +18,7 @@ def save_field(data, domain_id):
 
     if dom.id:
         target_field = TargetField(**data).load(domain_id=domain_id)
+        original_field = copy(target_field)
 
         if not target_field.id:
             identifier = uuid.uuid4().hex.upper()
@@ -28,9 +31,7 @@ def save_field(data, domain_id):
             target_field = new_dom
 
         target_field.label = data['label']
-        # target_field.name = data['name']
         target_field.description = data.get('description', None)
-        # target_field.category = data.get('category', None)
         target_field.type = data['type']
         target_field.mandatory = data.get('mandatory', False)
         target_field.editable = data.get('editable', False)
@@ -38,12 +39,17 @@ def save_field(data, domain_id):
         target_field.modified_on = datetime.datetime.utcnow()
         target_field.ref_type_id = data.get('ref_type_id', None)
 
+        if original_field.id:
+            if original_field.type != target_field.type:
+                if FlowContext().db().find_one({"domain_id": domain_id, "columns":{"$in":[target_field.name]}}):
+                    return {'status':'fail', 'message': 'Unable to change Field Type After Upload'}, 409
+
         target_field.save(domain_id=domain_id)
 
     else:
-        raise Exception(f'NO DOMAIN WITH ID {domain_id} FOUND')
+        return {"status":"fail", "message":"Domain does exist"}, 409
 
-    return target_field
+    return {"status":"success", "message":"Field Created"}, 200
 
 
 def delete_field(data, domain_id):

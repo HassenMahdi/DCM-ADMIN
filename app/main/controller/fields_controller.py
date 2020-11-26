@@ -25,13 +25,13 @@ class Fields(Resource):
     @api.doc('Create/Update Domain Fields')
     @api.response(201, 'Field successfully created/updated.')
     @api.expect(dto, validate=True)
-    @api.marshal_with(dto)
+    # @api.marshal_with(dto)
     @token_required
     def post(self, domain_id):
         # get the post data
         # post_data = request.json
         post_data = DTOFields.from_dto_dict_to_dao_dict(request.json)
-        return DTOFields.from_dao_to_dto(save_field(data=post_data, domain_id = domain_id), domain_id)
+        return save_field(data=post_data, domain_id = domain_id)
 
     @api.doc('delete field')
     @api.response(201, 'field successfully deleted.')
