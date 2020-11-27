@@ -4,7 +4,8 @@ from flask_restplus import Resource, reqparse
 from ..dto.dto_fields import DTOFields
 from ..service.fields_service import get_all_fields, save_field, delete_field, fields_from_file, get_simple
 from ..service.reference_service import save_ref_type, get_all_ref_types, delete_ref_type, get_all_ref_data, \
-    save_ref_data, delete_ref_data, get_ref_type, import_ref_data_from_file, share_ref_type
+    save_ref_data, delete_ref_data, get_ref_type, import_ref_data_from_file, share_ref_type, update_ref_data_from_file, \
+    download_ref_data_from_file
 from ..util.decorator import token_required
 from ..util.dto import FieldsDto, ReferenceTypeDto
 
@@ -103,11 +104,32 @@ class RefData(Resource):
 @api.param('ref_type_id', 'Domain ID')
 class RefData(Resource):
     @api.doc('import ref')
-    @api.response(201, 'Ref Data successfully deleted.')
+    @api.response(201, 'Ref Data successfully imported.')
     @token_required
     def post(self, ref_type_id):
         # get the file data
-        return import_ref_data_from_file(request.files['file'], ref_type_id)
+        import_ref_data_from_file(request.files['file'], ref_type_id)
+        return {'response': True}
 
 
+@api.route('/type/<ref_type_id>/update')
+@api.param('ref_type_id', 'Domain ID')
+class RefDataUpdate(Resource):
+    @api.doc('update ref')
+    @api.response(201, 'Ref Data successfully updated.')
+    @token_required
+    def post(self, ref_type_id):
+        # get the file data
+        update_ref_data_from_file(request.files['file'], ref_type_id)
+        return {'response': True}
 
+
+@api.route('/type/<ref_type_id>/download')
+@api.param('ref_type_id', 'Domain ID')
+class RefDataDownload(Resource):
+    @api.doc('download ref')
+    @api.response(201, 'Ref Data successfully downloaded.')
+    @token_required
+    def post(self, ref_type_id):
+        # get the file data
+        return download_ref_data_from_file(ref_type_id)

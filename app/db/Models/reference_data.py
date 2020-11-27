@@ -14,8 +14,8 @@ class ReferenceData(Document):
     code = None
     alias = None
     ref_type_id = None
-    created_on=None
-    modified_on= None
+    created_on = None
+    modified_on = None
     properties = None
 
 
