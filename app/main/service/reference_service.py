@@ -1,13 +1,13 @@
 import datetime
 import xlrd
+from io import BytesIO
+import pandas as pd
+from flask import send_file
 
 from app.db.Models.domain import Domain
-from app.db.Models.field import TargetField
 from app.db.Models.reference_data import ReferenceData
 from app.db.Models.reference_type import ReferenceType
 from app.main.util.strings import generate_id
-
-EXCELMIME = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
 
 def get_ref_type(ref_type_id):
@@ -196,5 +196,12 @@ def create_codes(ref_type_id, data, ref_type, codes):
 def download_ref_data_from_file(ref_type_id):
     ref = ReferenceData().db().find({"ref_type_id": ref_type_id})
     references = [{'code': m['code'], 'alias': ''.join(m['alias'])} for m in ref]
-    return references
+    df = pd.DataFrame(references)
+    output = BytesIO()
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df.to_excel(writer, sheet_name='Sheet1')
+    writer.save()
+    output.seek(0)
+    return send_file(output, attachment_filename='output.xlsx', as_attachment=True)
+
 
