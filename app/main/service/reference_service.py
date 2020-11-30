@@ -96,6 +96,12 @@ def save_ref_data(data):
     ref_data.modified_on = datetime.datetime.now()
     ref_data.properties = data.get('properties', {})
 
+    if not ref_data.has_unique_code():
+        return {'status': 'fail', 'message': "this Code is already used"}, 409
+
+    if not ref_data.has_unique_alias():
+        return {'status': 'fail', 'message': "One Alias or more are already is use"}, 409
+
     ref_data.save()
 
     return ref_data
@@ -130,6 +136,22 @@ def import_ref_data_from_file(file, ref_type_id):
     for row in range(1, sh.nrows):
         data = dict(zip(file_columns, sh.row_values(row)))
         create_codes(ref_type_id, data, ref_type, ops)
+
+    # Validate Excel File
+    codes_set = set()
+    alias_set = set()
+    for ref_data in ops:
+        code = ref_data['code']
+        alias = ref_data['alias']
+        if code in codes_set:
+            return {"status":"fail","message":f'Duplicated Code In File {code}'}, 409
+        else:
+            codes_set.add(code)
+        for a in alias:
+            if a in alias_set:
+                return {"status": "fail", "message": f'Duplicated Alias In File {a}'}, 409
+            else:
+                alias_set.add(code)
 
     ReferenceData().db().delete_many({"ref_type_id": ref_type_id})
     ReferenceData().db().insert_many(ops)
@@ -181,7 +203,7 @@ def update_ref_data_from_file(file, ref_type_id):
             )
 
 
-def create_codes(ref_type_id, data, ref_type, codes):
+def create_codes(ref_type_id, data, ref_type, codes=[]):
     ref_data = {'created_on': datetime.datetime.now(), 'modified_on': datetime.datetime.now(),
                 'ref_type_id': ref_type_id, 'code': data.get('code'),
                 'alias': data.get('alias', '').split(';'), 'properties': {},
@@ -192,6 +214,8 @@ def create_codes(ref_type_id, data, ref_type, codes):
         ref_data['properties'][property_code] = data.get(property_code, None)
     codes.append(ref_data)
 
+    return ref_data
+
 
 def download_ref_data_from_file(ref_type_id):
     ref = ReferenceData().db().find({"ref_type_id": ref_type_id})
@@ -199,9 +223,9 @@ def download_ref_data_from_file(ref_type_id):
     df = pd.DataFrame(references)
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
-    df.to_excel(writer, sheet_name='Sheet1')
+    df.to_excel(writer, sheet_name='Reference Data')
     writer.save()
     output.seek(0)
-    return send_file(output, attachment_filename='output.xlsx', as_attachment=True)
+    return send_file(output, attachment_filename='reference.xlsx', as_attachment=True)
 
 

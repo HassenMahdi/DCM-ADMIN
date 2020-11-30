@@ -81,7 +81,7 @@ class RefDataList(Resource):
     @api.doc('Create/Update Domain Fields')
     @api.response(201, 'Field successfully created/updated.')
     @api.expect(ref_data, validate=True)
-    @api.marshal_with(ref_data)
+    # @api.marshal_with(ref_data)
     @token_required
     def post(self, ref_type_id):
         data = request.json
