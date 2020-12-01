@@ -104,7 +104,7 @@ def save_ref_data(data):
 
     ref_data.save()
 
-    return ref_data
+    return {'status': 'success', 'message': "Reference Data Saved"}, 201
 
 
 def delete_ref_data(ref_id):
@@ -219,7 +219,7 @@ def create_codes(ref_type_id, data, ref_type, codes=[]):
 
 def download_ref_data_from_file(ref_type_id):
     ref = ReferenceData().db().find({"ref_type_id": ref_type_id})
-    references = [{'code': m['code'], 'alias': ''.join(m['alias'])} for m in ref]
+    references = [{'code': m['code'], 'alias': ';'.join(m['alias'])} for m in ref]
     df = pd.DataFrame(references)
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
