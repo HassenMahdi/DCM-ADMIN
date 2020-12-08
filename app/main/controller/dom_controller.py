@@ -13,7 +13,7 @@ dto = DomainDto.domain
 
 
 @api.route('/')
-class Domains(Resource):
+class DomainsList(Resource):
     """
         Domain Resource
     """
@@ -57,7 +57,7 @@ class Domains(Resource):
 
 
 @api.route('/super/<super_id>')
-class SubDomains(Resource):
+class SuperDomains(Resource):
     """
         Domain Resource
     """
@@ -66,6 +66,28 @@ class SubDomains(Resource):
     @token_required
     def get(self, super_id):
         return get_domains_by_super_id(super_id)
+
+
+@api.route('/<dom_id>/info')
+class Domain(Resource):
+    """
+        Domain Resource
+    """
+    @api.doc('Get Domain Information')
+    @token_required
+    def get(self, dom_id):
+        dom = get_domain(dom_id)
+        super_dom = get_domains_by_super_id(dom.super_domain_id)
+        return {
+            "collection":{
+                "name":dom.name,
+                "id":dom.id
+            },
+            "domain":{
+                "name":super_dom.name,
+                "id":super_dom.id
+            }
+        }
 
 
 @api.route('/<dom_id>')
