@@ -7,6 +7,10 @@ from app.db.Models.super_domain import SuperDomain
 from app.main.util.strings import get_next_iteration, camelCase
 
 
+def get_super_dom(id):
+    return SuperDomain(**dict(id=id)).load()
+
+
 def save_super_domain(data):
     dom = SuperDomain(**data).load()
     if not dom.id:

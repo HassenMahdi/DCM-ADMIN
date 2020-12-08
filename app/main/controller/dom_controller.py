@@ -5,6 +5,7 @@ from ..service.auth_helper import Auth
 from ..service.doms_service import get_all_domains, save_domain, get_domains_by_super_id, delete_domain, \
     duplicate_domain, get_domains_grouped_by_super_domains, get_domain
 from ..service.fields_service import duplicate_fields
+from ..service.super_dom_service import get_super_dom
 from ..util.decorator import token_required
 from ..util.dto import DomainDto
 
@@ -77,7 +78,7 @@ class Domain(Resource):
     @token_required
     def get(self, dom_id):
         dom = get_domain(dom_id)
-        super_dom = get_domains_by_super_id(dom.super_domain_id)
+        super_dom = get_super_dom(dom.super_domain_id)
         return {
             "collection":{
                 "name":dom.name,
