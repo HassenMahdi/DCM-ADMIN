@@ -4,6 +4,7 @@ import datetime
 from app.db.Models.domain import Domain
 from app.db.Models.field import TargetField
 from app.db.Models.super_domain import SuperDomain
+from app.db.Models.user import User
 from app.main.util.strings import get_next_iteration, camelCase
 
 
@@ -53,6 +54,7 @@ def delete_super_domain(data):
             TargetField.drop(domain_id=dm.id)
             dm.delete()
 
+        User.remove_domain_for_users(super_dom.id)
         super_dom.delete()
 
     return super_dom

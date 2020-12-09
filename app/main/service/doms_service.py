@@ -5,6 +5,7 @@ from app.db.Models.collection_data import CollectionData
 from app.db.Models.domain import Domain
 from app.db.Models.field import TargetField
 from app.db.Models.super_domain import SuperDomain
+from app.db.Models.user import User
 from app.main.service.super_dom_service import get_user_query
 from app.main.util.strings import camelCase, get_next_iteration
 
@@ -56,17 +57,12 @@ def save_domain(data):
 
 
 def delete_domain(data):
-    super_domain_id = data['super_domain_id']
-    super_dom = SuperDomain(**{'id':super_domain_id}).load()
 
-    if super_dom.id:
-        dom = Domain(**data).delete()
-        TargetField.drop(domain_id=dom.id)
-        CollectionData.drop(domain_id=dom.id)
-    else:
-        raise Exception(f'NO SUPER DOMAIN WITH ID {super_domain_id} FOUND')
+    dom = Domain(**data)
+    TargetField.drop(domain_id=dom.id)
+    dom.delete()
 
-    return dom
+    return {"message":"Collection Deleted", "status":'success'}, 200
 
 
 def get_all_domains():
