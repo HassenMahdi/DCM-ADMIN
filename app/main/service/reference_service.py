@@ -140,18 +140,35 @@ def import_ref_data_from_file(file, ref_type_id):
     # Validate Excel File
     codes_set = set()
     alias_set = set()
+
+    duplicated_alias_set = set()
+    duplicated_codes_set = set()
+
     for ref_data in ops:
         code = ref_data['code']
         alias = ref_data['alias']
         if code in codes_set:
-            return {"status":"fail","message":f'Duplicated Code In File {code}'}, 409
+            duplicated_codes_set.add(code)
         else:
             codes_set.add(code)
         for a in alias:
             if a in alias_set:
-                return {"status": "fail", "message": f'Duplicated Alias In File {a}'}, 409
+                duplicated_alias_set.add(a)
             else:
-                alias_set.add(code)
+                alias_set.add(a)
+
+    if len(duplicated_alias_set) > 0 or len(duplicated_codes_set) > 0:
+        return {
+                   "status": "fail",
+                    "message": f'<h6>Duplicated Codes</h6>'
+                               f'<ul>'
+                               + ''.join([f'<li>{c}</li>' for c in duplicated_codes_set])
+                               + f'</ul>'
+                                 f'<h6>Duplicated Aliases</h6>'
+                                 f'<ul>'
+                               + ''.join([f'<li>{c}</li>' for c in duplicated_alias_set])
+                               + f'</ul>'
+               }, 409
 
     ReferenceData().db().delete_many({"ref_type_id": ref_type_id})
     ReferenceData().db().insert_many(ops)
