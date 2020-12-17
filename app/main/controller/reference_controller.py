@@ -108,9 +108,7 @@ class RefData(Resource):
     @token_required
     def post(self, ref_type_id):
         # get the file data
-        import_ref_data_from_file(request.files['file'], ref_type_id)
-        return {'response': True}
-
+        return import_ref_data_from_file(request.files['file'], ref_type_id)
 
 @api.route('/type/<ref_type_id>/update')
 @api.param('ref_type_id', 'Domain ID')
@@ -120,8 +118,7 @@ class RefDataUpdate(Resource):
     @token_required
     def post(self, ref_type_id):
         # get the file data
-        update_ref_data_from_file(request.files['file'], ref_type_id)
-        return {'response': True}
+        return update_ref_data_from_file(request.files['file'], ref_type_id)
 
 
 @api.route('/type/<ref_type_id>/download')
