@@ -156,6 +156,8 @@ def import_ref_data_from_file(file, ref_type_id):
     ReferenceData().db().delete_many({"ref_type_id": ref_type_id})
     ReferenceData().db().insert_many(ops)
 
+    return {"status": "success", "message": f'Reference Data Imported'}, 200
+
 
 def update_ref_data_from_file(file, ref_type_id):
     properties = {'code': 'code', 'alias': 'alias'}
@@ -201,6 +203,8 @@ def update_ref_data_from_file(file, ref_type_id):
                 }
                 }, upsert=False
             )
+
+    return {"status": "success", "message": f'Reference Data Updated'}, 200
 
 
 def create_codes(ref_type_id, data, ref_type, codes=[]):
