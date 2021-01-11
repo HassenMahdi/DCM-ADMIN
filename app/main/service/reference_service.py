@@ -72,7 +72,16 @@ def share_ref_type(ref_type_id, domain_ids):
 def get_all_ref_types(domain_id=None, include_shared=True):
     query = {}
     if domain_id:
-        query = {"$or": [{"domain_ids": {"$all": [domain_id]}}, {"shared": True}]}
+        query = {
+            "$or": [
+                    {
+                        "domain_ids": {
+                            "$all": [domain_id]
+                        }
+                    },
+                {"shared": True}
+            ]
+        }
 
     return ReferenceType().get_all(query)
 

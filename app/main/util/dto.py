@@ -119,3 +119,25 @@ class ReferenceTypeDto:
         'properties':fields.Raw
     })
 
+
+class ConnectorsDto:
+    api = Namespace('connectors')
+    dto = api.model('connector', {
+        'id': NullableString,
+        "type":fields.String,
+        "name":fields.String,
+        "created_on":fields.DateTime,
+        "modified_on":fields.DateTime,
+        "password": NullableString,
+        "user": NullableString,
+        "url": NullableString,
+        "port": fields.Integer,
+        "conn_string": NullableString,
+        "secret": NullableString,
+        'description': NullableString,
+        'database': NullableString,
+        'auth_with': NullableString,
+        'sas_token': NullableString,
+        'shared_access_key': NullableString,
+    })
+
