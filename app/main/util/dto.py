@@ -122,12 +122,15 @@ class ReferenceTypeDto:
 
 class ConnectorsDto:
     api = Namespace('connectors')
-    dto = api.model('connector', {
+    simple = api.model("simple_connector", {
         'id': NullableString,
-        "type":fields.String,
-        "name":fields.String,
-        "created_on":fields.DateTime,
-        "modified_on":fields.DateTime,
+        "type": fields.String,
+        "name": fields.String,
+        "created_on": fields.DateTime,
+        "modified_on": fields.DateTime,
+        "description": NullableString
+    })
+    dto = api.inherit('connector',simple, {
         "password": NullableString,
         "user": NullableString,
         "url": NullableString,
