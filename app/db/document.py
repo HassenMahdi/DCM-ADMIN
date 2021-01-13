@@ -57,7 +57,7 @@ class Document:
         return self
 
     @classmethod
-    def get_all(cls, query={}, projection = {}, **kwargs):
+    def get_all(cls, query={}, projection = None, **kwargs):
         return [cls(**r) for r in cls().db(**kwargs).find(query, projection)]
 
     @classmethod
