@@ -19,6 +19,7 @@ def save_connector(data):
 
     cn.name = data['name']
     cn.type = data['type']
+    cn.host = data.get('host', None)
     cn.password = data.get('password', None)
     cn.database = data.get('database', None)
     cn.user = data.get('user', None)

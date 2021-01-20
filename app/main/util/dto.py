@@ -132,6 +132,7 @@ class ConnectorsDto:
     })
     dto = api.inherit('connector',simple, {
         "password": NullableString,
+        "host": NullableString,
         "user": NullableString,
         "url": NullableString,
         "port": fields.Integer,

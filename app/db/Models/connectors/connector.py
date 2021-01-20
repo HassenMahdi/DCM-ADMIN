@@ -6,6 +6,7 @@ class Connector(Document):
 
     type=None
     password=None
+    host=None
     user=None
     url=None
     port=None
