@@ -99,7 +99,7 @@ class ChecksDto:
 
 class ReferenceTypeDto:
     api = Namespace('ref_type', description='ref_type')
-    ref_type = api.model('Reference Type', {
+    base_ref_type = api.model('Base Reference Type', {
         'id': NullableString,
         'label': fields.String,
         'description': NullableString,
@@ -108,7 +108,23 @@ class ReferenceTypeDto:
         'created_on': fields.DateTime,
         'modified_on': fields.DateTime,
         'shared': fields.Boolean,
+        'parent_id': NullableString,
+        'version_label': NullableString,
     })
+
+    ref_type_version = api.model('Reference Type Version', {
+        'id': NullableString,
+        'description': NullableString,
+        'created_on': fields.DateTime,
+        'modified_on': fields.DateTime,
+        'version_label': NullableString,
+        'parent_id': NullableString,
+    })
+
+    ref_type = api.inherit('Reference Type', base_ref_type, {
+        'versions': fields.List(fields.Nested(ref_type_version))
+    })
+
     ref_data = api.model('Reference Data', {
         'id': NullableString,
         'code': fields.String,

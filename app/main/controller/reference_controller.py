@@ -20,7 +20,7 @@ class RefTypeList(Resource):
     """
         Domain Resource
     """
-    @token_required
+    # @token_required
     @api.doc('Get All Domain Reference DataTypes')
     @api.marshal_list_with(ref_type)
     def get(self):
@@ -30,10 +30,10 @@ class RefTypeList(Resource):
         domain_id = args.get("domain_id", None)
         return get_all_ref_types(domain_id)
 
-    @api.doc('Create/Update Domain Fields')
+    @api.doc('Create/Update Reference Data')
     @api.response(201, 'Field successfully created/updated.')
     @api.expect(ref_type, validate=True)
-    @token_required
+    # @token_required
     def post(self):
         data = request.json
         return save_ref_type(data)
@@ -50,7 +50,7 @@ class RefType(Resource):
     def delete(self, ref_type_id):
         return delete_ref_type(ref_type_id)
 
-    @token_required
+    # @token_required
     @api.doc('Get Ref Type')
     @api.marshal_with(ref_type)
     def get(self, ref_type_id):

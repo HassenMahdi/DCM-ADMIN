@@ -11,7 +11,17 @@ from app.main.util.strings import generate_id
 
 
 def get_ref_type(ref_type_id):
-    return ReferenceType(id=ref_type_id).load()
+    ref_type = ReferenceType(id=ref_type_id).load()
+
+    if ref_type.parent_id:
+        parent = ReferenceType(id=ref_type.parent_id).load()
+        ref_type.shared = parent.shared
+        ref_type.label = parent.label
+        ref_type.properties = parent.properties
+        ref_type.domain_ids = parent.domain_ids
+
+    return ref_type
+
 
 
 def save_ref_type(data):
@@ -23,15 +33,31 @@ def save_ref_type(data):
     if not ref_type.id:
         ref_type.created_on = datetime.datetime.now()
 
-    ref_type.label = data.get('label')
-    ref_type.description = data.get('description', None)
-    ref_type.properties = data.get('properties', [])
-    ref_type.modified_on = datetime.datetime.now()
-    ref_type.domain_ids = data.get('domain_ids', [])
-    ref_type.shared = data.get('shared', False)
+    # SAVE CHILD AS VERSION
+    if data.get('parent_id', None):
+        ref_type.parent_id = data.get('parent_id')
+        ref_type.version_label = data.get('version_label')
+        ref_type.description = data.get('description', None)
+        ref_type.modified_on = datetime.datetime.now()
 
-    if ReferenceType().db().find_one({'_id': {'$ne': ref_type.id}, 'label': ref_type.label}):
-        return {"status": 'fail', "message": 'Reference Type Name Already Exists'}, 409
+        if ReferenceType().db().find_one({'parent_id': ref_type.parent_id, '_id': {'$ne': ref_type.id}, 'version_label': ref_type.version_label}):
+            return {"status": 'fail', "message": 'Reference Version Already Exists'}, 409
+    # SAVE AS PARENT VERSION
+    else:
+        ref_type.label = data.get('label')
+        ref_type.description = data.get('description', None)
+        ref_type.properties = data.get('properties', [])
+        ref_type.modified_on = datetime.datetime.now()
+        ref_type.domain_ids = data.get('domain_ids', [])
+        ref_type.shared = data.get('shared', False)
+        ref_type.parent_id = data.get('parent_id', None)
+        ref_type.version_label = data.get('version_label') or 'Version 1'
+
+        if ReferenceType().db().find_one({'_id': {'$ne': ref_type.id}, 'label': ref_type.label}):
+            return {"status": 'fail', "message": 'Reference Type Name Already Exists'}, 409
+
+        if ReferenceType().db().find_one({'parent_id': ref_type.id, '_id': {'$ne': ref_type.id}, 'version_label': ref_type.version_label}):
+            return {"status": 'fail', "message": 'Reference Version Already Exists In This Reference Type'}, 409
 
     ref_type.save()
 
@@ -70,9 +96,9 @@ def share_ref_type(ref_type_id, domain_ids):
 
 
 def get_all_ref_types(domain_id=None, include_shared=True):
-    query = {}
+    query = {"parent_id": None}
     if domain_id:
-        query = {
+        query.update({
             "$or": [
                     {
                         "domain_ids": {
@@ -81,9 +107,25 @@ def get_all_ref_types(domain_id=None, include_shared=True):
                     },
                 {"shared": True}
             ]
+        })
+
+    lookup = {
+            "from": ReferenceType.__TABLE__,
+            "localField": "_id",
+            "foreignField": "parent_id",
+            "as": "versions",
         }
 
-    return ReferenceType().get_all(query)
+    cursor = ReferenceType().db().aggregate([{"$match": query}, {"$lookup": lookup}])
+
+    result = []
+    for r in cursor:
+        reference_type = ReferenceType(**r)
+        first_version = ReferenceType(**r)
+        reference_type.versions = [first_version] + [ReferenceType(**v) for v in r["versions"]]
+        result.append(reference_type)
+
+    return result
 
 
 def get_ref_data(ref_id):

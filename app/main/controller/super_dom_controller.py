@@ -35,7 +35,6 @@ class SuperDomains(Resource):
     @token_required
     @api.doc('delete super Domains')
     @api.response(201, 'Super Domain successfully deleted.')
-    # @api.expect(dto, validate=Tru e)
     @api.marshal_with(dto)
     def delete(self):
         # get the post data
