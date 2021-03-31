@@ -1,6 +1,8 @@
 from flask_restplus import Api
 from flask import Blueprint
 
+
+from .main.controller.dictionary_controller import api as dict_ns
 from .main.controller.dom_controller  import api as doms_ns
 from .main.controller.fields_controller  import api as flds_ns
 from .main.controller.checks_controller  import api as chks_ns
@@ -15,6 +17,7 @@ api = Api(blueprint,
           version='2.0',
           )
 
+api.add_namespace(dict_ns, path='/dictionary')
 api.add_namespace(doms_ns, path='/domain')
 api.add_namespace(flds_ns, path='/domain')
 api.add_namespace(chks_ns, path='/domain')

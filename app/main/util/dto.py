@@ -44,6 +44,17 @@ class DomainDto:
     })
 
 
+class DictionaryDto:
+    api = Namespace('dictionary', description='dictionary related operations')
+    dictionary = api.model('dictionary', {
+        'id': NullableString(),
+        'name': fields.String(required=True),
+        'description': NullableString(),
+        'created_on': fields.DateTime(),
+        'modified_on': fields.DateTime(),
+    })
+
+
 class SuperDomainDto:
     api = Namespace('super-domain', description='super domain related operations')
     super_domain = api.model('super-domain', {
