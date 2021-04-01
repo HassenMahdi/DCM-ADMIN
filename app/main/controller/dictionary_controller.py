@@ -11,9 +11,7 @@ dto = DictionaryDto.dictionary
 
 @api.route('/')
 class DictionariesList(Resource):
-    """
-        Dictionary Resource
-    """
+
     @api.doc('Get All Dictionaries')
     @api.marshal_list_with(dto)
     @token_required
@@ -28,9 +26,17 @@ class DictionariesList(Resource):
         post_data = request.json
         return save_dictionary(data=post_data)
 
+
+@api.route('/<dict_id>')
+class Dictionaries(Resource):
+
     @api.doc('delete Dictionary')
     @api.response(201, 'Dictionary successfully deleted.')
     @api.marshal_with(dto)
-    def delete(self):
-        post_data = request.json
-        return delete_dcitionary(data=post_data)
+    def delete(self, dict_id):
+        return delete_dcitionary(dict_id)
+
+    @api.doc('Get Dictionary by Id')
+    @api.marshal_with(dto)
+    def get(self, dict_id):
+        return get_dictionary(dict_id)

@@ -30,14 +30,19 @@ def get_all_dictionaries():
     return Dictionary.get_all()
 
 
-def delete_dcitionary(data):
-    id = data['id']
-    dict = Dictionary(**{'id': id}).load()
+def delete_dcitionary(dict_id):
+    dict = Dictionary(**{'id': dict_id}).load()
 
     if dict.id:
-        dict = Dictionary(**data).delete()
+        dict.delete()
+        return {"status":"success", "message": "Dictionary deleted."}, 200
     else:
-        raise Exception(f'No Dictionary With Id {id} Found')
+        return {"status": "success", "message": "No Dictionary found."}, 404
 
+
+def get_dictionary(dict_id):
+    dict = Dictionary(**{'id': dict_id}).load()
     return dict
+
+
 
