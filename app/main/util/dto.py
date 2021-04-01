@@ -54,6 +54,18 @@ class DictionaryDto:
         'modified_on': fields.DateTime(),
     })
 
+class CategoryDto:
+    api = Namespace('category', description='category related operations')
+    category = api.model('category', {
+        'id': NullableString(),
+        'code': fields.String(required=True),
+        'cat': fields.String(required=True),
+        'dict_id': fields.String(required=True),
+        'keywords': fields.List(fields.Raw),
+        'created_on': fields.DateTime(),
+        'modified_on': fields.DateTime(),
+    })
+
 
 class SuperDomainDto:
     api = Namespace('super-domain', description='super domain related operations')

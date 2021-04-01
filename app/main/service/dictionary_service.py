@@ -1,4 +1,5 @@
 from app.db.Models.dictionary import Dictionary
+from app.db.Models.category import Category
 import datetime
 import uuid
 
@@ -7,8 +8,7 @@ def save_dictionary(data):
     dict = Dictionary(**data).load()
 
     if not dict.id:
-        new_dict = Dictionary(
-                **{**data, **{
+        new_dict = Dictionary(**{**data,**{
                     'id': uuid.uuid4().hex.upper(),
                     'created_on': datetime.datetime.utcnow()
                 }})
@@ -34,7 +34,13 @@ def delete_dcitionary(dict_id):
     dict = Dictionary(**{'id': dict_id}).load()
 
     if dict.id:
+        cats = Category.get_all(query={'dict_id':dict.id})
+
+        for cat in cats:
+            cat.delete()
+
         dict.delete()
+
         return {"status":"success", "message": "Dictionary deleted."}, 200
     else:
         return {"status": "success", "message": "No Dictionary found."}, 404
@@ -42,7 +48,8 @@ def delete_dcitionary(dict_id):
 
 def get_dictionary(dict_id):
     dict = Dictionary(**{'id': dict_id}).load()
-    return dict
 
-
-
+    if dict.id:
+        return dict
+    else:
+        return {"status": "success", "message": "No Dictionary found."}, 404
