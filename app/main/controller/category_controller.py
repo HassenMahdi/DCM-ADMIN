@@ -25,16 +25,16 @@ class CategoryList(Resource):
         post_data = request.json
         return save_category(data=post_data)
 
-@api.route('/<cat_id>')
+@api.route('/cat/<cat_id>')
 class Dictionaries(Resource):
 
-    @api.doc('delete Dictionary')
-    @api.response(201, 'Dictionary successfully deleted.')
+    @api.doc('delete Category')
+    @api.response(201, 'Category successfully deleted.')
     @api.marshal_with(dto)
     def delete(self, cat_id):
         return delete_category(cat_id)
 
-    @api.doc('Get Dictionary by Id')
+    @api.doc('Get Category by Id')
     @api.marshal_with(dto)
     def get(self, cat_id):
         return get_category(cat_id)
