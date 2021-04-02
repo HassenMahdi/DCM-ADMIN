@@ -8,6 +8,18 @@ from ..util.dto import CategoryDto
 api = CategoryDto.api
 dto = CategoryDto.category
 
+
+@api.route('/')
+class Category(Resource):
+    @api.doc('Create/Update Categories')
+    @api.response(201, 'Category successfully created/updated.')
+    @token_required
+    @api.marshal_with(dto)
+    def post(self):
+        post_data = request.json
+        return save_category(data=post_data)
+
+
 @api.route('/<dict_id>')
 class CategoryList(Resource):
 
@@ -17,15 +29,8 @@ class CategoryList(Resource):
     def get(self,dict_id):
         return get_all_categories_by_dict_id(dict_id)
 
-    @api.doc('Create/Update Categories')
-    @api.response(201, 'Category successfully created/updated.')
-    @token_required
-    @api.marshal_with(dto)
-    def post(self,dict_id):
-        post_data = request.json
-        return save_category(data=post_data)
 
-@api.route('/cat/<cat_id>')
+@api.route('/<cat_id>')
 class Dictionaries(Resource):
 
     @api.doc('delete Category')
