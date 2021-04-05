@@ -1,5 +1,5 @@
 from app.db.Models.dictionary import Dictionary
-from app.db.Models.category import Category
+from app.db.Models.word import Word
 import datetime
 import uuid
 
@@ -34,7 +34,7 @@ def delete_dcitionary(dict_id):
     dict = Dictionary(**{'id': dict_id}).load()
 
     if dict.id:
-        cats = Category.get_all(query={'dict_id':dict.id})
+        cats = Word.get_all(query={'dict_id':dict.id})
 
         for cat in cats:
             cat.delete()

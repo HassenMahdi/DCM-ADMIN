@@ -9,7 +9,7 @@ from .main.controller.checks_controller  import api as chks_ns
 from .main.controller.super_dom_controller  import api as super_ns
 from .main.controller.reference_controller  import api as ref_ns
 from .main.controller.connectors_controller  import api as cnn_ns
-from .main.controller.category_controller  import api as cat_ns
+from .main.controller.word_controller  import api as cat_ns
 
 blueprint = Blueprint('api', __name__)
 

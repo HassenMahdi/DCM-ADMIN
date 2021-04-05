@@ -1,8 +1,8 @@
 from app.db.document import Document
 
 
-class Category(Document):
-    __TABLE__ = "categories"
+class Word(Document):
+    __TABLE__ = "words"
 
     code = None
     cat = None
