@@ -30,8 +30,10 @@ def save_word(data):
 
     return {"status": "success", "message": "Word saved"}, 201
 
+
 def get_all_words_by_dict_id(dict_id):
     return Word.get_all(query={'dict_id': dict_id})
+
 
 def delete_word(word_id):
     word = Word(**{'id': word_id}).load()
@@ -44,5 +46,9 @@ def delete_word(word_id):
 
 def get_word(word_id):
     return Word(**{'id': word_id}).load()
+
+
+def get_words_by_cat(cat):
+    return Word.get_all(query={'cat': cat})
 
 

@@ -54,9 +54,10 @@ class DictionaryDto:
         'modified_on': fields.DateTime(),
     })
 
+
 class WordDto:
     api = Namespace('word', description='word related operations')
-    category = api.model('word', {
+    word = api.model('word', {
         'id': NullableString(),
         'code': fields.String(required=True),
         'cat': fields.String(required=True),

@@ -6,7 +6,7 @@ from ..util.decorator import token_required
 from ..util.dto import WordDto
 
 api = WordDto.api
-dto = WordDto.category
+dto = WordDto.word
 
 
 @api.route('/')
@@ -43,3 +43,12 @@ class Words(Resource):
     @api.marshal_with(dto)
     def get(self, word_id):
         return get_word(word_id)
+
+
+@api.route('/categories/<cat>')
+class WordsCat(Resource):
+
+    @api.doc('Get Words by Cat')
+    @api.marshal_with(dto)
+    def get(self, cat):
+        return get_words_by_cat(cat)
