@@ -10,7 +10,7 @@ click==6.7
 coverage==4.4.2
 cryptography==2.9.2
 enum-compat==0.0.3
-eventlet==0.21.0
+eventlet==0.31.0
 Flask==1.1.2
 Flask-Bcrypt==0.7.1
 Flask-Cors==3.0.3
@@ -57,7 +57,7 @@ click==6.7
 coverage==4.4.2
 cryptography==2.9.2
 enum-compat==0.0.3
-eventlet==0.21.0
+eventlet==0.31.0
 Flask==1.1.2
 Flask-Bcrypt==0.7.1
 Flask-Cors==3.0.3
