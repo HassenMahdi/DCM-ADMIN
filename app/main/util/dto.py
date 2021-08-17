@@ -188,3 +188,15 @@ class ConnectorsDto:
 
 class RsuDto:
     api = Namespace('rsu')
+    rsu_data = api.model('Rsu Composition', {
+        'id': NullableString,
+        'composition': fields.Raw,
+        'created_on': fields.DateTime,
+        'modified_on': fields.DateTime,
+    })
+
+    rsu_with_header = api.model('Rsu Composition Result With Header', {
+        "data": fields.List(fields.Nested(rsu_data), required=True),
+        "sources": fields.List(fields.String),
+        "targets": fields.List(fields.String)
+    })
