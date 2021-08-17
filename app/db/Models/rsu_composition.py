@@ -6,4 +6,5 @@ class RsuComposition(Document):
 
     created_on = None
     modified_on = None
+    composition = None
 
