@@ -185,3 +185,6 @@ class ConnectorsDto:
         'shared_access_key': NullableString,
     })
 
+
+class RsuDto:
+    api = Namespace('rsu')

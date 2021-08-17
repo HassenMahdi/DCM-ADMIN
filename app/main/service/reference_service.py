@@ -23,7 +23,6 @@ def get_ref_type(ref_type_id):
     return ref_type
 
 
-
 def save_ref_type(data):
     ref_type_id = data.get('id', None)
     ref_type = ReferenceType()
