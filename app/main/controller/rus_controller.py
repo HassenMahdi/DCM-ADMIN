@@ -1,7 +1,7 @@
 from flask import request
 from flask_restplus import Resource
 
-from ..service.rsu_service import import_rsu_data_from_file, get_all_rsu_data
+from ..service.rsu_service import import_rsu_data_from_file, get_all_rsu_data, update_rsu_data_from_file
 from ..util.decorator import token_required
 from ..util.dto import RsuDto
 
@@ -11,7 +11,7 @@ rsu_with_header = RsuDto.rsu_with_header
 
 
 @api.route('/')
-class RefDataList(Resource):
+class RsuDataList(Resource):
     @token_required
     @api.doc('Get All RSU Composition')
     @api.marshal_list_with(rsu_with_header)
@@ -20,10 +20,20 @@ class RefDataList(Resource):
 
 
 @api.route('/import')
-class RefData(Resource):
+class RsuDataImport(Resource):
     @api.doc('import rsu composition data')
     @api.response(201, 'RSU composition successfully imported.')
     @token_required
     def post(self):
         # get the file data
         return import_rsu_data_from_file(request.files['file'])
+
+
+@api.route('/update')
+class RsuDataUpdate(Resource):
+    @api.doc('update rsu composition data')
+    @api.response(201, 'Ref Data successfully updated.')
+    @token_required
+    def post(self):
+        # get the file data
+        return update_rsu_data_from_file(request.files['file'])
