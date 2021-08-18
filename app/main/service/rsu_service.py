@@ -123,7 +123,7 @@ def filterBy(col_name,value,row):
     col = row.get(col_name)
     if ';' in col:
         compare = col.split(";")
-        if(value<float(compare[1]) and value>float(compare[0])):
+        if float(compare[1]) > value > float(compare[0]):
             return True
         return False
     else:
