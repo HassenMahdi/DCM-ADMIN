@@ -1,7 +1,7 @@
 from flask import request
 from flask_restplus import Resource
 
-from ..service.rsu_service import import_rsu_data_from_file, get_all_rsu_data, update_rsu_data_from_file
+from ..service.rsu_service import import_rsu_data_from_file, get_all_rsu_data, update_rsu_data_from_file, compare_rsu_data
 from ..util.decorator import token_required
 from ..util.dto import RsuDto
 
@@ -37,3 +37,13 @@ class RsuDataUpdate(Resource):
     def post(self):
         # get the file data
         return update_rsu_data_from_file(request)
+
+
+@api.route('/compare')
+class RefData(Resource):
+    @api.doc('compare data')
+    @api.response(201, 'RSU comparison successfully imported.')
+    @token_required
+    def post(self):
+        # get the file data
+        return compare_rsu_data(request.files['file'])
