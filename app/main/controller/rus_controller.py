@@ -26,7 +26,7 @@ class RsuDataImport(Resource):
     @token_required
     def post(self):
         # get the file data
-        return import_rsu_data_from_file(request.files['file'])
+        return import_rsu_data_from_file(request)
 
 
 @api.route('/update')
@@ -36,4 +36,4 @@ class RsuDataUpdate(Resource):
     @token_required
     def post(self):
         # get the file data
-        return update_rsu_data_from_file(request.files['file'])
+        return update_rsu_data_from_file(request)

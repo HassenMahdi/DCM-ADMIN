@@ -1,30 +1,49 @@
 import datetime
+import traceback
+
 import xlrd
 
 from app.db.Models.rsu_composition import RsuComposition
-from app.main.util.rsu_utils import rsu_map_column, sources, targets
+from app.main.util.rsu_utils import rsu_map_column, SOURCES, TARGETS, allowed_file
 from app.main.util.strings import generate_id
 
 
-def get_rows_col_from_file(file):
-    book = xlrd.open_workbook(file_contents=file.read())
-    sheet = book.sheet_by_index(0)
+def get_rows_col_from_file(request):
+    try:
+        if 'file' not in request.files:
+            return {"status": "failed", "message": 'No file part'}
 
-    new_columns = []
-    for col in range(sheet.ncols):
-        col_name = str(rsu_map_column(sheet.cell_value(0, col)))
-        new_columns.append(col_name)
+        file = request.files['file']
+        filename = file.filename
 
-    rows = []
-    for row in range(1, sheet.nrows):
-        data = dict(zip(new_columns, sheet.row_values(row)))
-        createRsuRow(data, rows)
+        if filename == '':
+            return {"status": "failed", "message": "Empty Payload"}
 
-    return rows, new_columns
+        file_extension = allowed_file(filename)
+
+        if file and file_extension:
+            book = xlrd.open_workbook(file_contents=file.read())
+            sheet = book.sheet_by_index(0)
+
+            new_columns = []
+            for col in range(sheet.ncols):
+                col_name = str(rsu_map_column(sheet.cell_value(0, col)))
+                new_columns.append(col_name)
+
+            rows = []
+            for row in range(1, sheet.nrows):
+                data = dict(zip(new_columns, sheet.row_values(row)))
+                createRsuRow(data, rows)
+
+            return rows, new_columns
+
+    except Exception:
+        traceback.print_exc()
+        return {"status": "failed", "message": "Exception Occured"}
 
 
-def import_rsu_data_from_file(file):
-    rows, columns = get_rows_col_from_file(file)
+def import_rsu_data_from_file(request):
+    rows, columns = get_rows_col_from_file(request)
 
     # SAVE new compositions
     if len(rows) > 0:
@@ -34,8 +53,8 @@ def import_rsu_data_from_file(file):
         return {"status": "success", "message": f'Imported file is empty'}, 200
 
 
-def update_rsu_data_from_file(file):
-    rows, columns = get_rows_col_from_file(file)
+def update_rsu_data_from_file(request):
+    rows, columns = get_rows_col_from_file(request)
     rowToAdd = []
 
     # UPDATE / Get new compositions from the file then save it
@@ -55,8 +74,8 @@ def get_all_rsu_data():
 
     response = {
         "data": data,
-        "sources": sources,
-        "targets": targets
+        "sources": SOURCES,
+        "targets": TARGETS
     }
 
     return response
