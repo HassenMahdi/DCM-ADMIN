@@ -6,7 +6,7 @@ from app.main.util.rsu_utils import rsu_map_column, sources, targets
 from app.main.util.strings import generate_id
 
 
-def import_rsu_data_from_file(file, update=False):
+def get_rows_col_from_file(file):
     book = xlrd.open_workbook(file_contents=file.read())
     sheet = book.sheet_by_index(0)
 
@@ -18,28 +18,37 @@ def import_rsu_data_from_file(file, update=False):
     rows = []
     for row in range(1, sheet.nrows):
         data = dict(zip(new_columns, sheet.row_values(row)))
-        createRow(data, rows)
+        createRsuRow(data, rows)
 
-    # UPDATE / Get new compositions from the file then save it
-    if update and len(rows) > 0:
-        rowToAdd = []
-        for row in rows:
-            if not RsuComposition().db().find_one({"composition": row['composition']}):
-                rowToAdd.append(row)
+    return rows, new_columns
 
-        if len(rowToAdd) > 0:
-            RsuComposition().db().insert_many(rowToAdd)
-            return {"status": "success", "message": f'RSU Composition Data Updated'}, 200
-        else:
-            return {"status": "success", "message": f'Nothing to update'}, 200
+
+def import_rsu_data_from_file(file):
+    rows, columns = get_rows_col_from_file(file)
 
     # SAVE new compositions
-    else:
+    if len(rows) > 0:
         RsuComposition().db().insert_many(rows)
         return {"status": "success", "message": f'RSU Composition Data Imported'}, 200
+    else:
+        return {"status": "success", "message": f'Imported file is empty'}, 200
+
 
 def update_rsu_data_from_file(file):
-    import_rsu_data_from_file(file, True)
+    rows, columns = get_rows_col_from_file(file)
+    rowToAdd = []
+
+    # UPDATE / Get new compositions from the file then save it
+    for row in rows:
+        if not RsuComposition().db().find_one({"composition": row['composition']}):
+            rowToAdd.append(row)
+
+    if len(rowToAdd) > 0:
+        RsuComposition().db().insert_many(rowToAdd)
+        return {"status": "success", "message": f'RSU Composition Data Updated'}, 200
+    else:
+        return {"status": "success", "message": f'Nothing to update'}, 200
+
 
 def get_all_rsu_data():
     data = RsuComposition().get_all({})
@@ -53,7 +62,7 @@ def get_all_rsu_data():
     return response
 
 
-def createRow(data, rows = []):
+def createRsuRow(data, rows=[]):
     new_composition = {
         'id': generate_id(),
         'created_on': datetime.datetime.now(),
