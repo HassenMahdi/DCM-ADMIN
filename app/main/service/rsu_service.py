@@ -4,8 +4,14 @@ import traceback
 import xlrd
 
 from app.db.Models.rsu_composition import RsuComposition
-from app.main.util.rsu_utils import rsu_map_column, SOURCES, TARGETS, allowed_file
+from app.main.util.rsu_utils import rsu_map_column, SOURCES, TARGETS, allowed_file, RES_SOURCES, RES_TARGETS
 from app.main.util.strings import generate_id
+
+from geopy.geocoders import Nominatim
+from geopy.extra.rate_limiter import RateLimiter
+
+geocoder = Nominatim(user_agent = 'deepkube')
+geocode = RateLimiter(geocoder.geocode, min_delay_seconds = 1,return_value_on_exception = None)
 
 
 def get_rows_col_from_file(request):
@@ -74,14 +80,17 @@ def get_all_rsu_data():
 
     response = {
         "data": data,
-        "sources": SOURCES,
-        "targets": TARGETS
+        "sources": RES_SOURCES,
+        "targets": RES_TARGETS
     }
 
     return response
 
 
 def createRsuRow(data, rows=[]):
+    data['latitude'] = geocode(data['adresse']).latitude
+    data['longitude'] = geocode(data['adresse']).longitude
+    del data['adresse']
     new_composition = {
         'id': generate_id(),
         'created_on': datetime.datetime.now(),
