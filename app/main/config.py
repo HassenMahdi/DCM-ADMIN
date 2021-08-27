@@ -10,7 +10,8 @@ class Config:
     SECRET_KEY = os.getenv('SECRET_KEY', 'my_precious_secret_key')
     DEBUG = False
     # MONGO_URI = os.getenv("MONGO_URI", "mongodb://root:Bxia!2020DaaTa1920CAvlmd@a43ea3b57744d43fab0eb7c2ef66e767-760928362.eu-west-1.elb.amazonaws.com:27017/dcm?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false")
-    MONGO_URI = "mongodb://root:Bxia2020DaaTa1920CAvlmd@20.74.14.235:27017/dcm?authSource=admin&readPreference=primary&ssl=false"
+    # MONGO_URI = "mongodb://root:Bxia2020DaaTa1920CAvlmd@20.74.14.235:27017/dcm?authSource=admin&readPreference=primary&ssl=false"
+    MONGO_URI = "mongodb://localhost:27017/dcm?readPreference=primary&appname=MongoDB%20Compass&ssl=false"
 
 
 class DevelopmentConfig(Config):
