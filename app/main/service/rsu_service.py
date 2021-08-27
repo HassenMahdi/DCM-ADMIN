@@ -54,6 +54,8 @@ def import_rsu_data_from_file(request):
     # SAVE new compositions
     if len(rows) > 0:
         RsuComposition().db().insert_many(rows)
+        RsuComposition().createIndex()
+
         return {"status": "success", "message": f'RSU Composition Data Imported'}, 200
     else:
         return {"status": "success", "message": f'Imported file is empty'}, 200
@@ -80,22 +82,25 @@ def get_all_rsu_data():
 
     response = {
         "data": data,
-        "sources": RES_SOURCES,
-        "targets": RES_TARGETS
+        "sources": SOURCES,
+        "targets": TARGETS
     }
 
     return response
 
 
 def createRsuRow(data, rows=[]):
-    data['latitude'] = geocode(data['adresse']).latitude
-    data['longitude'] = geocode(data['adresse']).longitude
-    del data['adresse']
+    aji = {
+        'type':'Point',
+        'coordinates' : [geocode(data['adresse']).longitude,geocode(data['adresse']).latitude]
+    }
+
     new_composition = {
         'id': generate_id(),
         'created_on': datetime.datetime.now(),
         'modified_on': datetime.datetime.now(),
-        'composition': data
+        'composition': data,
+        'location': aji
     }
 
     rows.append(new_composition)

@@ -1,8 +1,8 @@
 SOURCES = ["Nom", "Adresse", "Type logement", "Nombre de pieces", "Ordinateur",
-          "Niveau scolaire du conjoint", "Sanitaire", "Antenne parabolique"]
+          "Niveau scolaire du conjoint", "Sanitaire", "Antenne parabolique","Travail"]
 
 TARGETS = ["nom", "adresse", "type_logement", "nb_pieces", "oridnateur", "nv_scolaire_conjoint",
-          "sanitaire", "antenne_parabolique"]
+          "sanitaire", "antenne_parabolique","travail"]
 
 RES_SOURCES = ["Nom", "latitude","longitude", "Type logement", "Nombre de pieces", "Ordinateur",
           "Niveau scolaire du conjoint", "Sanitaire", "Antenne parabolique"]
