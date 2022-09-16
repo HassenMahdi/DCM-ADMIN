@@ -27,7 +27,7 @@ isodate==0.6.0
 itsdangerous==0.24
 Jinja2==2.11.2
 jsonschema==2.6.0
-Mako==1.0.7
+Mako==1.2.2
 MarkupSafe==1.1.1
 msrest==0.6.17
 oauthlib==3.1.0
@@ -74,7 +74,7 @@ isodate==0.6.0
 itsdangerous==0.24
 Jinja2==2.11.2
 jsonschema==2.6.0
-Mako==1.0.7
+Mako==1.2.2
 MarkupSafe==1.1.1
 msrest==0.6.17
 oauthlib==3.1.0
